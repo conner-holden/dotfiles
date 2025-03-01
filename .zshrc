@@ -21,6 +21,7 @@ alias ls='exa'
 alias ll='exa -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user'
 alias la='ll -a'
 alias gs='git status -s'
+alias n='nvim .'
 
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
