@@ -1,0 +1,27 @@
+[core]
+  editor = nvim
+  commentChar = ":"
+  whitespace = cr-at-eol
+[init]  
+  defaultBranch = main
+[gpg]
+	program = gpg2
+[user]
+	useConfigOnly = true
+[alias]
+  unstage = reset HEAD
+  undo-commit = reset --soft HEAD^
+  poh = push -u origin HEAD
+  pulloh = pull origin HEAD
+  l = log --pretty=format:'%C(yellow italic)%h%C(reset) %C(cyan)%<(13)%ar%C(reset) %C(magenta)%<(20)%an%C(reset) %C(red bold)%s%C(reset)'
+  set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  main = !git checkout main && git pull
+  last = !git log --pretty=format:'%s' -n 1 | xsel -b
+  resign = "!re() { git rebase --exec 'git commit --amend --no-edit -n -S' -i $1; }; re"
+[commit]
+	template = ~/.config/git/gitmessage
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
