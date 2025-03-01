@@ -31,6 +31,7 @@ local plugins = {
       require("lspconfig").rust_analyzer.setup({})
     end
   },
+  {"tzachar/highlight-undo.nvim", config = true},
 }
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
