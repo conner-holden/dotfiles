@@ -1,3 +1,4 @@
+autoload -U compinit
 
 bindkey -v
 bindkey "^?" backward-delete-char
@@ -12,9 +13,9 @@ zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
 
 export XDG_CONFIG_HOME="$HOME/.config"
-export FUNCNEST=100
 
 export PATH="$HOME/.atuin/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 alias ls='exa'
 alias ll='exa -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user'
@@ -23,7 +24,11 @@ alias gs='git status -s'
 
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fpath=("$HOME/.zsh/zsh-completions" $fpath)
+
+source <(fzf --zsh)
 
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
 
