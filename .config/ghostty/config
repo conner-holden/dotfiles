@@ -2,7 +2,6 @@ background-opacity = 0.95
 cursor-style = block
 font-family = CaskaydiaCove Nerd Font Mono
 gtk-adwaita = false
-maximize = true
 resize-overlay = never
 shell-integration = zsh
 shell-integration-features = no-cursor
