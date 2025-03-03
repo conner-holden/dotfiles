@@ -1,4 +1,6 @@
-autoload -U compinit
+autoload -U +X compinit && compinit
+
+setopt IGNORE_EOF
 
 bindkey -v
 bindkey "^?" backward-delete-char
@@ -12,6 +14,8 @@ function vi-yank-xclip {
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
 
+export NVM_COMPLETION=true
+export NVM_LAZY_LOAD=true
 export XDG_CONFIG_HOME="$HOME/.config"
 
 export PATH="$HOME/.atuin/bin:$PATH"
@@ -26,10 +30,10 @@ alias n='nvim .'
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fpath=("$HOME/.zsh/zsh-completions" $fpath)
+source "$HOME/.zsh/zsh-nvm/zsh-nvm.plugin.zsh"
 
 source <(fzf --zsh)
 
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-
