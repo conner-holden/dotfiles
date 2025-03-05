@@ -25,7 +25,7 @@ vim.cmd [[
   nnoremap gd :lua vim.lsp.buf.definition()<CR>
   nnoremap gj :lua vim.diagnostic.goto_next({buffer=0})<CR>
   nnoremap gk :lua vim.diagnostic.goto_prev({buffer=0})<CR>
-  vnoremap jk <Esc>
+  nnoremap gpf :Pick grep_live<CR>
   vnoremap . >gv
   vnoremap , <gv
   vnoremap <C-c> "+y
