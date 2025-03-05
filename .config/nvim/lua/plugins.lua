@@ -119,6 +119,7 @@ local plugins = {
       })
       lsp.rust_analyzer.setup({})
       lsp.svelte.setup({})
+      lsp.vtsls.setup({})
     end
   },
   { "lewis6991/gitsigns.nvim", config = true },
