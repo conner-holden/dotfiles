@@ -24,6 +24,61 @@ local plugins = {
   },
   { "nvim-lua/plenary.nvim" },
   {
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.8",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "jonarrien/telescope-cmdline.nvim",
+    },
+    lazy = false,
+    config = function()
+      require("telescope").setup({
+        defaults = {
+          cache_picker = {
+            num_pickers = -1, -- No limits on caching. Change if performance problems occur.
+          },
+          vimgrep_arguments = {
+            "rg",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--hidden",
+            "--smart-case",
+            "--glob",
+            "!**/.git/*",
+          },
+          mappings = {
+            i = {
+              ["<esc>"] = require("telescope.actions").close,
+            },
+            n = {
+              ["q"] = require("telescope.actions").close,
+            },
+          },
+        },
+      })
+      require("telescope").load_extension("cmdline")
+
+      -- Open cached live_grep picker if it exists, otherwise spawn a new one
+      vim.keymap.set("n", "<A-f>", function()
+        local builtin = require("telescope.builtin")
+        local pickers = require("telescope.state").get_global_key("cached_pickers")
+        if pickers == nil then
+          builtin.live_grep()
+          return
+        end
+        for i, v in ipairs(pickers) do
+          if v.prompt_title == "Live Grep" then
+            builtin.resume({ cache_index = i })
+            return
+          end
+        end
+        builtin.live_grep()
+      end, { silent = true, noremap = true })
+    end,
+  },
+  {
     "nvim-pack/nvim-spectre",
     config = function()
       require("spectre").setup({
