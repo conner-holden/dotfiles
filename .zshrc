@@ -14,12 +14,12 @@ function vi-yank-xclip {
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
 
-export NVM_COMPLETION=true
-export NVM_LAZY_LOAD=true
 export XDG_CONFIG_HOME="$HOME/.config"
+export VOLTA_HOME="$HOME/.volta"
 
 export PATH="$HOME/.atuin/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.volta/bin:$PATH"
 
 alias ls='exa'
 alias ll='exa -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user'
@@ -30,13 +30,13 @@ alias n='nvim .'
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fpath=("$HOME/.zsh/zsh-completions" $fpath)
-source "$HOME/.zsh/zsh-nvm/zsh-nvm.plugin.zsh"
 
 source <(fzf --zsh)
 
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
 
 export PNPM_HOME="/home/ch/.local/share/pnpm"
 case ":$PATH:" in
