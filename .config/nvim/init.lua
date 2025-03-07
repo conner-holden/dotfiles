@@ -19,10 +19,11 @@ g.netrw_winsize = 15
 
 vim.cmd [[
   inoremap jk <Esc>
-  nnoremap <A-e> :lua MiniFiles.open()<CR>
+  nnoremap <A-e> :lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false); MiniFiles.reveal_cwd()<CR>
   nnoremap <A-w> :w<CR>
   nnoremap <A-q> :qa<CR>
   nnoremap gd :lua vim.lsp.buf.definition()<CR>
+  nnoremap g. :lua vim.lsp.buf.code_action()<CR>
   nnoremap gj :lua vim.diagnostic.goto_next({buffer=0})<CR>
   nnoremap gk :lua vim.diagnostic.goto_prev({buffer=0})<CR>
   vnoremap . >gv
@@ -31,6 +32,7 @@ vim.cmd [[
   nnoremap <C-v> "+p
   inoremap <C-v> <C-o>"+p
   nnoremap <leader><leader> :Telescope cmdline<CR>
+  nnoremap Q :bd<CR>
 ]]
 
 vim.diagnostic.config({
