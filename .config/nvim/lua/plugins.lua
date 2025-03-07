@@ -70,7 +70,7 @@ local plugins = {
         end
         for i, v in ipairs(pickers) do
           if v.prompt_title == "Live Grep" then
-            builtin.resume({ cache_index = i })
+            builtin.resume({ cache_index = i, initial_mode = "normal" })
             return
           end
         end
@@ -120,9 +120,20 @@ local plugins = {
       lsp.rust_analyzer.setup({})
       lsp.svelte.setup({})
       lsp.vtsls.setup({})
+      lsp.tailwindcss.setup({})
     end
   },
-  { "lewis6991/gitsigns.nvim", config = true },
+  { "lewis6991/gitsigns.nvim",                     config = true },
+  { "JoosepAlviste/nvim-ts-context-commentstring", config = true },
+  {
+    "numToStr/Comment.nvim",
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+    config = function()
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      })
+    end,
+  },
   {
     "nvim-lualine/lualine.nvim",
     opts = {
@@ -144,7 +155,36 @@ local plugins = {
     "echasnovski/mini.nvim",
     version = "*",
     config = function()
-      require("mini.files").setup()
+      require("mini.files").setup({
+        mappings = {
+          go_in_plus = "l",
+          go_in = "L",
+        },
+      })
+
+      local map_split = function(buf_id, lhs, direction)
+        local rhs = function()
+          local cur_target = require("mini.files").get_explorer_state().target_window
+          local new_target = vim.api.nvim_win_call(cur_target, function()
+            vim.cmd(direction .. ' split')
+            return vim.api.nvim_get_current_win()
+          end)
+
+          require("mini.files").set_target_window(new_target)
+          require("mini.files").go_in({ close_on_file = true })
+        end
+        local desc = 'Split ' .. direction
+        vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
+      end
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesBufferCreate',
+        callback = function(args)
+          local buf_id = args.data.buf_id
+          map_split(buf_id, '<C-h>', 'belowright horizontal')
+          map_split(buf_id, '<C-v>', 'belowright vertical')
+        end,
+      })
       require("mini.pick").setup()
       require("mini.completion").setup()
       require("mini.cursorword").setup()
