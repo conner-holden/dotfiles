@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+function links {
+  ln -s /home/ch/projects/dotfiles/.zshrc /home/ch/.zshrc
+  ln -s /home/ch/projects/dotfiles/.vimrc /home/ch/.vimrc
+  ln -s /home/ch/projects/dotfiles/.saml2aws /home/ch/.saml2aws
+  ln -s /home/ch/projects/dotfiles/.aws/config /home/ch/.aws/config
+  ln -s /home/ch/projects/dotfiles/.config/nvim /home/ch/.config/nvim
+  ln -s /home/ch/projects/dotfiles/.config/git /home/ch/.config/git
+  ln -s /home/ch/projects/dotfiles/.config/ghostty /home/ch/.config/ghostty
+  ln -s /home/ch/repos/dotfiles/.config/user-dirs.dirs /home/ch/.config/user-dirs.dirs
+  ln -s /home/ch/repos/dotfiles/.local/share/applications/zen.desktop /home/ch/.local/share/applications/zen.desktop
+  ln -s /home/ch/repos/dotfiles/.local/share/applications/ghostty.desktop /home/ch/.local/share/applications/ghostty.desktop
+  ln -s /home/ch/repos/dotfiles/.local/share/icons/ghostty.png /home/ch/.local/share/icons/ghostty.png
+  ln -s /home/ch/repos/dotfiles/.local/share/icons/zen.png /home/ch/.local/share/icons/zen.png
+}
+
+"$@"
