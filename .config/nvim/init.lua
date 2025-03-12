@@ -1,6 +1,8 @@
 local o = vim.opt
 local g = vim.g
 
+o.cursorline = true
+o.hlsearch = false
 o.ignorecase = false
 o.expandtab = true
 o.fillchars = { eob = " " }
