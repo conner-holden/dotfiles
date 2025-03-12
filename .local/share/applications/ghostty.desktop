@@ -1,0 +1,23 @@
+[Desktop Entry]
+Name=Ghostty
+Type=Application
+Comment=A terminal emulator
+Exec=ghostty
+Icon=ghostty
+StartupWMClass=ghostty
+Categories=System;TerminalEmulator;Utility;
+Keywords=terminal;tty;pty;
+StartupNotify=true
+Terminal=false
+Actions=new-window;
+X-GNOME-UsesNotifications=true
+X-TerminalArgExec=-e
+X-TerminalArgTitle=--title=
+X-TerminalArgAppId=--class=
+X-TerminalArgDir=--working-directory=
+X-TerminalArgHold=--wait-after-command
+X-AppImage-Version=1.1.2
+
+[Desktop Action new-window]
+Name=New Window
+Exec=ghostty
