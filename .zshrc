@@ -23,8 +23,8 @@ export PATH="$HOME/.atuin/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.volta/bin:$PATH"
 
-alias ls='exa'
-alias ll='exa -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user'
+alias ls='eza'
+alias ll='eza -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user'
 alias la='ll -a'
 alias gs='git status -s'
 alias n='nvim .'
