@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 
 function links {
+  rm -rf \
+    /home/ch/.zshrc \
+    /home/ch/.vimrc \
+    /home/ch/.saml2aws \
+    /home/ch/.aws/config \
+    /home/ch/.config/nvim \
+    /home/ch/.config/git \
+    /home/ch/.config/ghostty \
+    /home/ch/.config/user-dirs.dirs \
+    /home/ch/.local/share/applications/zen.desktop \
+    /home/ch/.local/share/applications/ghostty.desktop \
+    /home/ch/.local/share/icons/ghostty.png \
+    /home/ch/.local/share/icons/zen.png \
+    /home/ch/.local/share/fonts
+
   ln -s /home/ch/projects/dotfiles/.zshrc /home/ch/.zshrc
   ln -s /home/ch/projects/dotfiles/.vimrc /home/ch/.vimrc
   ln -s /home/ch/projects/dotfiles/.saml2aws /home/ch/.saml2aws
@@ -8,11 +23,82 @@ function links {
   ln -s /home/ch/projects/dotfiles/.config/nvim /home/ch/.config/nvim
   ln -s /home/ch/projects/dotfiles/.config/git /home/ch/.config/git
   ln -s /home/ch/projects/dotfiles/.config/ghostty /home/ch/.config/ghostty
-  ln -s /home/ch/repos/dotfiles/.config/user-dirs.dirs /home/ch/.config/user-dirs.dirs
-  ln -s /home/ch/repos/dotfiles/.local/share/applications/zen.desktop /home/ch/.local/share/applications/zen.desktop
-  ln -s /home/ch/repos/dotfiles/.local/share/applications/ghostty.desktop /home/ch/.local/share/applications/ghostty.desktop
-  ln -s /home/ch/repos/dotfiles/.local/share/icons/ghostty.png /home/ch/.local/share/icons/ghostty.png
-  ln -s /home/ch/repos/dotfiles/.local/share/icons/zen.png /home/ch/.local/share/icons/zen.png
+  ln -s /home/ch/projects/dotfiles/.config/user-dirs.dirs /home/ch/.config/user-dirs.dirs
+  ln -s /home/ch/projects/dotfiles/.local/share/applications/zen.desktop /home/ch/.local/share/applications/zen.desktop
+  ln -s /home/ch/projects/dotfiles/.local/share/applications/ghostty.desktop /home/ch/.local/share/applications/ghostty.desktop
+  ln -s /home/ch/projects/dotfiles/.local/share/icons/ghostty.png /home/ch/.local/share/icons/ghostty.png
+  ln -s /home/ch/projects/dotfiles/.local/share/icons/zen.png /home/ch/.local/share/icons/zen.png
+  ln -s /home/ch/projects/dotfiles/.local/share/fonts /home/ch/.local/share/fonts
+}
+
+function bin {
+  # Neovim
+  curl -fsSL https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -o /home/ch/.local/bin/nvim \
+    && chmod +x /home/ch/.local/bin/nvim
+
+  # Zoxide
+  curl -fsSL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+
+  # Zen
+  curl -fsSL https://github.com/zen-browser/desktop/releases/latest/download/zen-x86_64.AppImage -o /home/ch/.local/bin/zen \
+    && chmod +x /home/ch/.local/bin/zen
+
+  # Ghostty
+  curl -fsSL https://github.com/psadi/ghostty-appimage/releases/download/v1.1.2%2B4/Ghostty-1.1.2-x86_64.AppImage -o /home/ch/.local/bin/ghostty \
+    && chmod +x /home/ch/.local/bin/ghostty
+
+  # Direnv
+  curl -fsSL https://direnv.net/install.sh | bash
+
+  # Docker
+  curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh ./get-docker.sh
+
+  # Just
+  curl --proto '=https' --tlsv1.2 -fsSL https://just.systems/install.sh | bash -s -- --to /home/ch/.local/bin
+
+  # Atuin
+  curl --proto '=https' --tlsv1.2 -fsSL https://setup.atuin.sh | sh
+
+  # Rustup
+  curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh
+
+  # Saml2aws
+  CURRENT_VERSION=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) \
+    && curl -fsSL "https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz" \
+      | tar -xz -C /home/ch/.local/bin \
+    && chmod +x /home/ch/.local/bin/saml2aws
+
+  # AWS CLI
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && sudo ./aws/install --bin-dir /home/ch/.local/bin --install-dir /home/ch/.local/aws-cli \
+    && rm awscliv2.zip
+
+  # Eza
+  curl -fsSL https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz \
+    | tar -xz -C /home/ch/.local/bin \
+    && chmod +x /home/ch/.local/bin/eza
+
+  # Fd
+  curl -fsSL https://github.com/sharkdp/fd/releases/download/v10.2.0/fd-v10.2.0-x86_64-unknown-linux-gnu.tar.gz \
+    | tar -xz -C /home/ch/.local/bin \
+    && chmod +x /home/ch/.local/bin/fd
+
+  # Ripgrep
+  curl -fsSL https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep-14.1.1-x86_64-unknown-linux-musl.tar.gz \
+    | tax -xz -C /home/ch/.local/bin
+    && chmod +x /home/ch/.local/bin/rg
+
+  # Nala
+  curl -fsSL https://gitlab.com/-/project/31927362/uploads/1164b1c240e4cdacc652b3dd5953c3d1/nala_0.15.4_all.deb -O nala.deb \
+    && sudo dpkg -i nala.deb \
+    && rm nala.deb
+
+  # Volta
+  curl https://get.volta.sh | bash
+
+  # Pnpm
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
 }
 
 "$@"
