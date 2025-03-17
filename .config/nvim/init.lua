@@ -15,6 +15,7 @@ o.tabstop = 2
 o.timeoutlen = 200
 o.undofile = true
 g.mapleader = " "
+g.maplocalleader = " "
 g.netrw_banner = 0
 g.netrw_liststyle = 3
 g.netrw_winsize = 15
@@ -35,6 +36,8 @@ vim.cmd [[
   inoremap <C-v> <C-o>"+p
   nnoremap <leader><leader> :Telescope cmdline<CR>
   nnoremap Q :bd<CR>
+  nnoremap <C-E> :windo normal! <C-e>
+  nnoremap <C-Y> :windo normal! <C-y>
 ]]
 
 vim.diagnostic.config({
@@ -46,6 +49,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function()
     vim.lsp.buf.format({ async = false })
   end,
+})
+
+vim.filetype.add({
+  extension = {
+    postcss = "css",
+  },
 })
 
 require("plugins")
