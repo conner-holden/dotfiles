@@ -109,6 +109,13 @@ function bin {
     | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/bat' \
     && chmod +x $LOCAL_BIN/bat
   command bat --version
+
+  # Procs
+  curl -fsSL https://github.com/dalance/procs/releases/download/v0.14.9/procs-v0.14.9-x86_64-linux.zip -o procs.zip \
+    && unzip -qu procs.zip procs -d $LOCAL_BIN \
+    && rm procs.zip \
+    && chmod +x $LOCAL_BIN/procs
+  command procs --version
 }
 
 "$@"
