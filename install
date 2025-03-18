@@ -35,104 +35,149 @@ function links {
   ln -s $DOTFILES/.local/share/fonts $HOME/.local/share/fonts
 }
 
-function bin {
-  # Neovim
+function all {
+  neovim
+  zoxide
+  zen
+  ghostty
+  direnv
+  docker
+  just
+  atuin
+  rustup
+  saml2aws
+  aws
+  eza
+  fd
+  ripgrep
+  nala
+  volta
+  pnpm
+  bat
+  procs
+  sd
+  btm
+  dust
+}
+
+function neovim {
   curl -fsSL https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -o $LOCAL_BIN/nvim \
     && chmod +x $LOCAL_BIN/nvim
+}
 
-  # Zoxide
+function zoxide {
   curl -fsSL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+}
 
-  # Zen
+function zen {
   curl -fsSL https://github.com/zen-browser/desktop/releases/latest/download/zen-x86_64.AppImage -o $LOCAL_BIN/zen \
     && chmod +x $LOCAL_BIN/zen
+}
 
-  # Ghostty
+function ghostty {
   curl -fsSL https://github.com/psadi/ghostty-appimage/releases/download/v1.1.2%2B4/Ghostty-1.1.2-x86_64.AppImage -o $LOCAL_BIN/ghostty \
     && chmod +x $LOCAL_BIN/ghostty
+}
 
-  # Direnv
+function direnv {
   curl -fsSL https://direnv.net/install.sh | bash
+}
 
-  # Docker
+function docker {
   curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh ./get-docker.sh
+}
 
-  # Just
+function just {
   curl --proto '=https' --tlsv1.2 -fsSL https://just.systems/install.sh | bash -s -- --to $LOCAL_BIN
+}
 
-  # Atuin
+function atuin {
   curl --proto '=https' --tlsv1.2 -fsSL https://setup.atuin.sh | sh
+}
 
-  # Rustup
+function rustup {
   curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh
+}
 
-  # Saml2aws
+function saml2aws {
   CURRENT_VERSION=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) \
     && curl -fsSL "https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz" \
       | tar -xz -C $LOCAL_BIN \
     && chmod +x $LOCAL_BIN/saml2aws
+}
 
-  # AWS CLI
+function aws {
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && sudo ./aws/install --bin-dir $LOCAL_BIN --install-dir $HOME/.local/aws-cli \
     && rm awscliv2.zip
+}
 
-  # Eza
+function eza {
   curl -fsSL https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz \
     | tar -xz -C $LOCAL_BIN \
     && chmod +x $LOCAL_BIN/eza \
     && command eza --version
+}
 
-  # Fd
+function fd {
   curl -fsSL https://github.com/sharkdp/fd/releases/download/v10.2.0/fd-v10.2.0-x86_64-unknown-linux-gnu.tar.gz \
     | tar -xz -C $LOCAL_BIN \
     && chmod +x $LOCAL_BIN/fd
+}
 
-  # Ripgrep
+function ripgrep {
   curl -fsSL https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep-14.1.1-x86_64-unknown-linux-musl.tar.gz \
     | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/rg' \
     && chmod +x $LOCAL_BIN/rg \
     && command rg --version
+}
 
-  # Nala
+function nala {
   curl -fsSL https://gitlab.com/-/project/31927362/uploads/1164b1c240e4cdacc652b3dd5953c3d1/nala_0.15.4_all.deb -O nala.deb \
     && sudo dpkg -i nala.deb \
     && rm nala.deb \
     && command nala --version
+}
 
-  # Volta
+function volta {
   curl https://get.volta.sh | bash
+}
 
-  # Pnpm
+function pnpm {
   curl -fsSL https://get.pnpm.io/install.sh | sh -
+}
 
-  # Bat
+function bat {
   curl -fsSL https://github.com/sharkdp/bat/releases/download/v0.25.0/bat-v0.25.0-x86_64-unknown-linux-musl.tar.gz \
     | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/bat' \
     && chmod +x $LOCAL_BIN/bat \
     && command bat --version
+}
 
-  # Procs
+function procs {
   curl -fsSL https://github.com/dalance/procs/releases/download/v0.14.9/procs-v0.14.9-x86_64-linux.zip -o procs.zip \
     && unzip -qu procs.zip procs -d $LOCAL_BIN \
     && rm procs.zip \
     && chmod +x $LOCAL_BIN/procs \
     && command procs --version
+}
 
-  # Sd
+function sd {
   curl -fsSL https://github.com/chmln/sd/releases/download/v1.0.0/sd-v1.0.0-x86_64-unknown-linux-musl.tar.gz \
     | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/sd' \
     && chmod +x $LOCAL_BIN/sd \
     && command sd --version
+}
 
-  # Dust
+function dust {
   curl -fsSL https://github.com/bootandy/dust/releases/download/v1.1.2/dust-v1.1.2-x86_64-unknown-linux-musl.tar.gz \
     | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/dust' \
     && chmod +x $LOCAL_BIN/dust \
     && command dust --version
+}
 
-  # Btm
+function btm {
   curl -fsSL https://github.com/ClementTsang/bottom/releases/download/0.10.2/bottom_x86_64-unknown-linux-musl.tar.gz \
     | tar -xz -C $LOCAL_BIN btm \
     && chmod +x $LOCAL_BIN/btm \
