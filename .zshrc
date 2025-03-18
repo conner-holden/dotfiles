@@ -29,6 +29,7 @@ alias la='ll -a'
 alias cat='bat -p --theme=Nord'
 alias ps='procs'
 alias top='procs -w'
+alias htop='btm'
 alias gs='git status -s'
 alias n='nvim .'
 
