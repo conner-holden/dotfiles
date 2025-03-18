@@ -81,7 +81,8 @@ function bin {
   # Eza
   curl -fsSL https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz \
     | tar -xz -C $LOCAL_BIN \
-    && chmod +x $LOCAL_BIN/eza
+    && chmod +x $LOCAL_BIN/eza \
+    && command eza --version
 
   # Fd
   curl -fsSL https://github.com/sharkdp/fd/releases/download/v10.2.0/fd-v10.2.0-x86_64-unknown-linux-gnu.tar.gz \
@@ -90,13 +91,15 @@ function bin {
 
   # Ripgrep
   curl -fsSL https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep-14.1.1-x86_64-unknown-linux-musl.tar.gz \
-    | tar -xz -C $LOCAL_BIN \
-    && chmod +x $LOCAL_BIN/rg
+    | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/rg' \
+    && chmod +x $LOCAL_BIN/rg \
+    && command rg --version
 
   # Nala
   curl -fsSL https://gitlab.com/-/project/31927362/uploads/1164b1c240e4cdacc652b3dd5953c3d1/nala_0.15.4_all.deb -O nala.deb \
     && sudo dpkg -i nala.deb \
-    && rm nala.deb
+    && rm nala.deb \
+    && command nala --version
 
   # Volta
   curl https://get.volta.sh | bash
@@ -107,15 +110,33 @@ function bin {
   # Bat
   curl -fsSL https://github.com/sharkdp/bat/releases/download/v0.25.0/bat-v0.25.0-x86_64-unknown-linux-musl.tar.gz \
     | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/bat' \
-    && chmod +x $LOCAL_BIN/bat
-  command bat --version
+    && chmod +x $LOCAL_BIN/bat \
+    && command bat --version
 
   # Procs
   curl -fsSL https://github.com/dalance/procs/releases/download/v0.14.9/procs-v0.14.9-x86_64-linux.zip -o procs.zip \
     && unzip -qu procs.zip procs -d $LOCAL_BIN \
     && rm procs.zip \
-    && chmod +x $LOCAL_BIN/procs
-  command procs --version
+    && chmod +x $LOCAL_BIN/procs \
+    && command procs --version
+
+  # Sd
+  curl -fsSL https://github.com/chmln/sd/releases/download/v1.0.0/sd-v1.0.0-x86_64-unknown-linux-musl.tar.gz \
+    | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/sd' \
+    && chmod +x $LOCAL_BIN/sd \
+    && command sd --version
+
+  # Dust
+  curl -fsSL https://github.com/bootandy/dust/releases/download/v1.1.2/dust-v1.1.2-x86_64-unknown-linux-musl.tar.gz \
+    | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/dust' \
+    && chmod +x $LOCAL_BIN/dust \
+    && command dust --version
+
+  # Btm
+  curl -fsSL https://github.com/ClementTsang/bottom/releases/download/0.10.2/bottom_x86_64-unknown-linux-musl.tar.gz \
+    | tar -xz -C $LOCAL_BIN btm \
+    && chmod +x $LOCAL_BIN/btm \
+    && command btm --version
 }
 
 "$@"
