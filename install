@@ -103,6 +103,12 @@ function bin {
 
   # Pnpm
   curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+  # Bat
+  curl -fsSL https://github.com/sharkdp/bat/releases/download/v0.25.0/bat-v0.25.0-x86_64-unknown-linux-musl.tar.gz \
+    | tar -xz -C $LOCAL_BIN --strip-components=1 --wildcards '*/bat' \
+    && chmod +x $LOCAL_BIN/bat
+  command bat --version
 }
 
 "$@"

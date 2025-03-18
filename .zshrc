@@ -26,6 +26,7 @@ export PATH="$HOME/.volta/bin:$PATH"
 alias ls='eza'
 alias ll="eza -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user --time-style '+%m/%d/%y [%H:%M]'"
 alias la='ll -a'
+alias cat='bat -p --theme=Nord'
 alias gs='git status -s'
 alias n='nvim .'
 
