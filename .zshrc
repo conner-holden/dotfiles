@@ -24,7 +24,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.volta/bin:$PATH"
 
 alias ls='eza'
-alias ll='eza -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user'
+alias ll="eza -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user --time-style '+%m/%d/%y [%H:%M]'"
 alias la='ll -a'
 alias gs='git status -s'
 alias n='nvim .'
