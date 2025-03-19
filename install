@@ -58,6 +58,7 @@ function all {
   sd
   btm
   dust
+  ngrok
 }
 
 function neovim {
@@ -182,6 +183,13 @@ function btm {
     | tar -xz -C $LOCAL_BIN btm \
     && chmod +x $LOCAL_BIN/btm \
     && command btm --version
+}
+
+function ngrok {
+  curl -fsSL https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz \
+    | tar -xz -C $LOCAL_BIN ngrok \
+    && chmod +x $LOCAL_BIN/ngrok \
+    && command ngrok --version
 }
 
 "$@"
