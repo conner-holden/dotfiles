@@ -18,7 +18,9 @@ PROMPT_EOL_MARK=''
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export VOLTA_HOME="$HOME/.volta"
+export FLYCTL_INSTALL="/home/ch/.fly"
 
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export PATH="$HOME/.atuin/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.volta/bin:$PATH"

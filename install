@@ -61,6 +61,7 @@ function all {
   btm
   dust
   ngrok
+  fly
 }
 
 function neovim {
@@ -192,6 +193,10 @@ function ngrok {
     | tar -xz -C $LOCAL_BIN ngrok \
     && chmod +x $LOCAL_BIN/ngrok \
     && command ngrok --version
+}
+
+function fly {
+  curl -fsSL https://fly.io/install.sh | sh
 }
 
 "$@"
