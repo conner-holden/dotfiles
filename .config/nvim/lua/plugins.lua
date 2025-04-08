@@ -173,6 +173,11 @@ local plugins = {
           go_in_plus = "l",
           go_in = "L",
         },
+        windows = {
+          width_focus = 15,
+          width_preview = 50,
+          preview = true,
+        },
       })
 
       local map_split = function(buf_id, lhs, direction)

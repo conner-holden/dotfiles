@@ -35,6 +35,7 @@ vim.cmd [[
   nnoremap <C-v> "+p
   inoremap <C-v> <C-o>"+p
   nnoremap <leader><leader> :Telescope cmdline<CR>
+  nnoremap <leader>f :Telescope find_files<CR>
   nnoremap Q :bd<CR>
   nnoremap <C-E> :windo normal! <C-e>
   nnoremap <C-Y> :windo normal! <C-y>
@@ -56,5 +57,25 @@ vim.filetype.add({
     postcss = "css",
   },
 })
+
+local original_text_document_definition = vim.lsp.handlers['textDocument/definition']
+local function test_definition(err, result, ...)
+  if result and #result > 1 then
+    local seen = {}
+    local unique_results = {}
+
+    for _, res in ipairs(result) do
+      local uri = res.targetUri
+      if not seen[uri] then
+        table.insert(unique_results, res)
+        seen[uri] = true
+      end
+    end
+    return original_text_document_definition(err, unique_results, ...)
+  end
+  return original_text_document_definition(err, result, ...)
+end
+
+vim.lsp.handlers["textDocument/definition"] = test_definition
 
 require("plugins")
