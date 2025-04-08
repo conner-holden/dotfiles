@@ -136,7 +136,7 @@ local plugins = {
       lsp.tailwindcss.setup({})
     end
   },
-  { "lewis6991/gitsigns.nvim",                     config = true },
+  { "lewis6991/gitsigns.nvim",                     config = true, version = "1.0.2" },
   { "JoosepAlviste/nvim-ts-context-commentstring", config = true },
   {
     "numToStr/Comment.nvim",
@@ -175,8 +175,6 @@ local plugins = {
         },
         windows = {
           width_focus = 15,
-          width_preview = 50,
-          preview = true,
         },
       })
 
