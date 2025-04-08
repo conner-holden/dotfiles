@@ -13,6 +13,7 @@ function links {
     $HOME/.config/nvim \
     $HOME/.config/git \
     $HOME/.config/ghostty \
+    $HOME/.config/atuin/config.toml \
     $HOME/.config/user-dirs.dirs \
     $HOME/.local/share/applications/zen.desktop \
     $HOME/.local/share/applications/ghostty.desktop \
@@ -27,6 +28,7 @@ function links {
   ln -s $DOTFILES/.config/nvim $HOME/.config/nvim
   ln -s $DOTFILES/.config/git $HOME/.config/git
   ln -s $DOTFILES/.config/ghostty $HOME/.config/ghostty
+  ln -s $DOTFILES/.config/atuin/config.toml $HOME/.config/atuin/config.toml
   ln -s $DOTFILES/.config/user-dirs.dirs $HOME/.config/user-dirs.dirs
   ln -s $DOTFILES/.local/share/applications/zen.desktop $HOME/.local/share/applications/zen.desktop
   ln -s $DOTFILES/.local/share/applications/ghostty.desktop $HOME/.local/share/applications/ghostty.desktop
