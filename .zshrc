@@ -39,6 +39,16 @@ fpath=("$HOME/.zsh/zsh-completions" $fpath)
 
 source <(fzf --zsh)
 
+rv_precmd() {
+  eval "$(rv precmd)"
+}
+rv_chpwd() {
+  eval "$(rv chpwd)"
+}
+autoload -U add-zsh-hook
+add-zsh-hook precmd rv_precmd
+add-zsh-hook chpwd rv_chpwd
+
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
