@@ -93,6 +93,11 @@ local plugins = {
     end
   },
   {
+    "mrcjkb/rustaceanvim",
+    version = "^5",
+    lazy = false,
+  },
+  {
     "MagicDuck/grug-far.nvim",
     config = function()
       -- optional setup call to override plugin options
@@ -130,7 +135,6 @@ local plugins = {
           },
         },
       })
-      lsp.rust_analyzer.setup({})
       lsp.svelte.setup({})
       lsp.vtsls.setup({})
       lsp.tailwindcss.setup({})
