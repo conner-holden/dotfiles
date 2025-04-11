@@ -1,6 +1,7 @@
 local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
+    tag = "v0.9.3",
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -99,6 +100,7 @@ local plugins = {
   },
   {
     "MagicDuck/grug-far.nvim",
+    tag = "1.6.3",
     config = function()
       -- optional setup call to override plugin options
       -- alternatively you can set options with vim.g.grug_far = { ... }
@@ -124,6 +126,7 @@ local plugins = {
   },
   {
     "neovim/nvim-lspconfig",
+    version = "v1.8.0",
     config = function()
       local lsp = require("lspconfig")
       lsp.lua_ls.setup({
@@ -153,6 +156,7 @@ local plugins = {
   },
   {
     "nvim-lualine/lualine.nvim",
+    commit = "0ea56f9",
     opts = {
       options = {
         section_separators = '',
