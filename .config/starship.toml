@@ -22,5 +22,5 @@ disabled = true
 [custom.rv]
 command = "rv which" # shows output of command
 style = "bold green"
-format = "with [$output]($style)"
+format = "with [$output]($style) "
 when = ''' test -n "$(rv which)" '''
