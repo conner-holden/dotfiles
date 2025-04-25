@@ -80,35 +80,15 @@ local plugins = {
     end,
   },
   {
-    "nvim-pack/nvim-spectre",
-    config = function()
-      require("spectre").setup({
-        live_update = true,
-      })
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "spectre_panel" },
-        callback = function()
-          vim.wo.number = false
-        end,
-      })
-    end
-  },
-  {
     "mrcjkb/rustaceanvim",
     version = "^5",
     lazy = false,
   },
   {
     "MagicDuck/grug-far.nvim",
-    tag = "1.6.3",
+    version = "1.6.3",
     config = function()
-      -- optional setup call to override plugin options
-      -- alternatively you can set options with vim.g.grug_far = { ... }
       require("grug-far").setup({
-        -- options, see Configuration section below
-        -- there are no required options atm
-        -- engine = 'ripgrep' is default, but 'astgrep' or 'astgrep-rules' can
-        -- be specified
       });
     end
   },
@@ -128,6 +108,7 @@ local plugins = {
     "neovim/nvim-lspconfig",
     version = "v1.8.0",
     config = function()
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
       local lsp = require("lspconfig")
       lsp.lua_ls.setup({
         settings = {
@@ -138,9 +119,9 @@ local plugins = {
           },
         },
       })
-      lsp.svelte.setup({})
-      lsp.vtsls.setup({})
-      lsp.tailwindcss.setup({})
+      lsp.svelte.setup({ capabilities = capabilities })
+      lsp.vtsls.setup({ capabilities = capabilities })
+      lsp.tailwindcss.setup({ capabilities = capabilities })
     end
   },
   { "lewis6991/gitsigns.nvim",                     config = true, version = "1.0.2" },
@@ -173,6 +154,54 @@ local plugins = {
     }
   },
   {
+    "folke/trouble.nvim",
+    opts = {},
+    cmd = "Trouble",
+  },
+  {
+    'saghen/blink.cmp',
+    dependencies = { 'rafamadriz/friendly-snippets' },
+    version = '1.*',
+    opts = {
+      -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+      -- 'super-tab' for mappings similar to vscode (tab to accept)
+      -- 'enter' for enter to accept
+      -- 'none' for no mappings
+      --
+      -- All presets have the following mappings:
+      -- C-space: Open menu or open docs if already open
+      -- C-n/C-p or Up/Down: Select next/previous item
+      -- C-e: Hide menu
+      -- C-k: Toggle signature help (if signature.enabled = true)
+      --
+      -- See :h blink-cmp-config-keymap for defining your own keymap
+      keymap = { preset = 'default' },
+
+      appearance = {
+        -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = 'mono'
+      },
+
+      -- (Default) Only show the documentation popup when manually triggered
+      completion = { documentation = { auto_show = false } },
+
+      -- Default list of enabled providers defined so that you can extend it
+      -- elsewhere in your config, without redefining it, due to `opts_extend`
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+
+      -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+      -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+      -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+      --
+      -- See the fuzzy documentation for more information
+      fuzzy = { implementation = "prefer_rust_with_warning" }
+    },
+    opts_extend = { "sources.default" }
+  },
+  {
     "echasnovski/mini.nvim",
     version = "*",
     config = function()
@@ -182,7 +211,7 @@ local plugins = {
           go_in = "L",
         },
         windows = {
-          width_focus = 15,
+          width_focus = 30,
         },
       })
 
@@ -210,7 +239,6 @@ local plugins = {
         end,
       })
       require("mini.pick").setup()
-      require("mini.completion").setup()
       require("mini.cursorword").setup()
       require("mini.indentscope").setup()
       require("mini.notify").setup()
@@ -285,6 +313,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = plugins,
   install = { colorscheme = { "nord" } },
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false, concurrency = 1 },
   rocks = { enabled = false },
 })
