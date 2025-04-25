@@ -2,6 +2,7 @@ local o = vim.opt
 local g = vim.g
 
 o.cursorline = true
+o.cmdheight = 0
 o.hlsearch = false
 o.ignorecase = false
 o.expandtab = true
@@ -22,7 +23,6 @@ g.netrw_winsize = 15
 
 vim.cmd [[
   inoremap jk <Esc>
-  nnoremap <A-e> :lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false); MiniFiles.reveal_cwd()<CR>
   nnoremap <A-w> :w<CR>
   nnoremap <A-q> :qa<CR>
   nnoremap gd :lua vim.lsp.buf.definition()<CR>
@@ -39,7 +39,18 @@ vim.cmd [[
   nnoremap Q :bd<CR>
   nnoremap <C-E> :windo normal! <C-e>
   nnoremap <C-Y> :windo normal! <C-y>
+  nnoremap <leader>xp <cmd>Trouble diagnostics toggle<cr>
+  nnoremap <leader>xb <cmd>Trouble diagnostics toggle filter.buf=0<cr>
+  nnoremap <leader>xe <cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>
+  nnoremap <leader>xs <cmd>Trouble symbols toggle focus=false<cr>
+  nnoremap <leader>sp <cmd>lua require("grug-far").open({ transient = true })<cr>
+  nnoremap <leader>sw <cmd>lua require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } })<cr>
+  nnoremap <leader>sf <cmd>lua require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })<cr>
 ]]
+
+vim.api.nvim_set_keymap('n', '<A-e>',
+  ':lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false); MiniFiles.reveal_cwd()<CR>',
+  { noremap = true, silent = true })
 
 vim.diagnostic.config({
   signs = false,
