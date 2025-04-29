@@ -19,13 +19,12 @@ local function vmap(lhs, rhs, opts)
 end
 
 nmap('<A-w>', function()
-  vim.lsp.buf.format({ async = false })
+  require('conform').format()
   vim.cmd('silent write')
   vim.schedule(function()
     vim.cmd('redraw')
   end)
 end)
-
 
 -- Insert mode
 imap('jk', '<Esc>')
@@ -35,8 +34,12 @@ imap('<C-v>', '<C-o>"+p')
 nmap('<A-q>', ':qa<CR>')
 nmap('gd', vim.lsp.buf.definition)
 nmap('g.', vim.lsp.buf.code_action)
-nmap('gj', function() vim.diagnostic.goto_next({ buffer = 0 }) end)
-nmap('gk', function() vim.diagnostic.goto_prev({ buffer = 0 }) end)
+nmap('gj', function()
+  vim.diagnostic.goto_next({ buffer = 0 })
+end)
+nmap('gk', function()
+  vim.diagnostic.goto_prev({ buffer = 0 })
+end)
 nmap('<C-v>', '"+p', { silent = true })
 nmap('<leader><leader>', ':Telescope cmdline<CR>')
 nmap('<leader>f', ':Telescope find_files<CR>')
@@ -47,20 +50,23 @@ nmap('<C-Y>', ':windo normal! <C-y><CR>')
 -- Trouble.nvim
 nmap('<leader>xp', '<cmd>Trouble diagnostics toggle<cr>')
 nmap('<leader>xb', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>')
-nmap('<leader>xe', '<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>')
+nmap(
+  '<leader>xe',
+  '<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>'
+)
 nmap('<leader>xs', '<cmd>Trouble symbols toggle focus=false<cr>')
 
 -- grug-far
 nmap('<leader>sp', function()
-  require("grug-far").open({ transient = true })
+  require('grug-far').open({ transient = true })
 end)
 
 nmap('<leader>sw', function()
-  require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } })
+  require('grug-far').open({ prefills = { search = vim.fn.expand('<cword>') } })
 end)
 
 nmap('<leader>sf', function()
-  require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
+  require('grug-far').open({ prefills = { paths = vim.fn.expand('%') } })
 end)
 
 -- Alt+e (MiniFiles)
