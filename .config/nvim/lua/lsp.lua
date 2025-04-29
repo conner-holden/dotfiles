@@ -4,7 +4,7 @@ vim.diagnostic.config({
 
 vim.filetype.add({
   extension = {
-    postcss = "css",
+    postcss = 'css',
   },
 })
 
@@ -26,4 +26,4 @@ local function test_definition(err, result, ...)
   return original_text_document_definition(err, result, ...)
 end
 
-vim.lsp.handlers["textDocument/definition"] = test_definition
+vim.lsp.handlers['textDocument/definition'] = test_definition
