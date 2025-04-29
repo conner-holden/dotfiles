@@ -83,6 +83,16 @@ local plugins = {
     "mrcjkb/rustaceanvim",
     version = "^5",
     lazy = false,
+    config = function()
+      vim.g.rustaceanvim = {
+        server = {
+          handlers = {
+            -- Hide indexing logs
+            ["$/progress"] = function() end,
+          },
+        },
+      }
+    end,
   },
   {
     "MagicDuck/grug-far.nvim",
