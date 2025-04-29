@@ -21,9 +21,16 @@ g.netrw_banner = 0
 g.netrw_liststyle = 3
 g.netrw_winsize = 15
 
+vim.keymap.set('n', '<A-w>', function()
+  vim.lsp.buf.format({ async = false })
+  vim.cmd('silent write')
+  vim.schedule(function()
+    vim.cmd('redraw')
+  end)
+end)
+
 vim.cmd [[
   inoremap jk <Esc>
-  nnoremap <A-w> :w<CR>
   nnoremap <A-q> :qa<CR>
   nnoremap gd :lua vim.lsp.buf.definition()<CR>
   nnoremap g. :lua vim.lsp.buf.code_action()<CR>
@@ -54,13 +61,6 @@ vim.api.nvim_set_keymap('n', '<A-e>',
 
 vim.diagnostic.config({
   signs = false,
-})
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
 })
 
 vim.filetype.add({
