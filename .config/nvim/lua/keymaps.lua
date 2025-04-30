@@ -1,3 +1,7 @@
+local builtin = require('telescope.builtin')
+
+local utils_grep = require('utils.grep')
+
 -- Custom map function with default silent = true
 local function map(mode, lhs, rhs, opts)
   opts = opts or {}
@@ -42,8 +46,35 @@ nmap('gk', function()
 end)
 nmap('<C-v>', '"+p', { silent = true })
 nmap('<leader><leader>', ':Telescope cmdline<CR>')
-nmap('<leader>f', ':Telescope find_files<CR>')
+
+-- Simple file search
+nmap('<leader>f', function()
+  require('telescope.builtin').find_files({
+    hidden = true,
+    prompt_title = false,
+    previewer = false,
+  })
+end)
+
+-- Live grep without extra result text and automatic search restoration
+nmap('<A-f>', function()
+  local pickers = require('telescope.state').get_global_key('cached_pickers')
+  if pickers == nil then
+    utils_grep.grep_without_snippet()
+    return
+  end
+  for i, v in ipairs(pickers) do
+    if v.prompt_title == 'Live Grep' then
+      builtin.resume({ cache_index = i, initial_mode = 'normal' })
+      return
+    end
+  end
+  utils_grep.grep_without_snippet()
+end)
+
 nmap('Q', ':bd<CR>')
+nmap('H', ':bp<CR>')
+nmap('L', ':bn<CR>')
 nmap('<C-E>', ':windo normal! <C-e><CR>')
 nmap('<C-Y>', ':windo normal! <C-y><CR>')
 
