@@ -1,5 +1,4 @@
 local plugins = {
-
   {
     'nvim-treesitter/nvim-treesitter',
     tag = 'v0.9.3',
@@ -12,7 +11,26 @@ local plugins = {
       })
     end,
   },
-
+  {
+    'simonmclean/triptych.nvim',
+    event = 'VeryLazy',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- required
+      'nvim-tree/nvim-web-devicons', -- optional for icons
+      'antosha417/nvim-lsp-file-operations', -- optional LSP integration
+    },
+    config = function()
+      require('triptych').setup({
+        options = {
+          backdrop = 100,
+          transparency = 0,
+        },
+      })
+    end,
+    keys = {
+      { '<leader>-', ':Triptych<CR>' },
+    },
+  },
   {
     'gbprod/nord.nvim',
     lazy = false,
@@ -22,6 +40,9 @@ local plugins = {
         transparent = true,
       })
       vim.cmd.colorscheme('nord')
+
+      vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'none', bold = true, italic = true })
+      vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'none', italic = true })
     end,
   },
   { 'nvim-lua/plenary.nvim' },
@@ -36,6 +57,11 @@ local plugins = {
     config = function()
       require('telescope').setup({
         defaults = {
+          layout_strategy = 'vertical',
+          results_title = false,
+          prompt_title = false,
+          prompt_prefix = '',
+          selection_caret = '  ',
           cache_picker = {
             num_pickers = -1, -- No limits on caching. Change if performance problems occur.
           },
@@ -61,23 +87,6 @@ local plugins = {
         },
       })
       require('telescope').load_extension('cmdline')
-
-      -- Open cached live_grep picker if it exists, otherwise spawn a new one
-      vim.keymap.set('n', '<A-f>', function()
-        local builtin = require('telescope.builtin')
-        local pickers = require('telescope.state').get_global_key('cached_pickers')
-        if pickers == nil then
-          builtin.live_grep()
-          return
-        end
-        for i, v in ipairs(pickers) do
-          if v.prompt_title == 'Live Grep' then
-            builtin.resume({ cache_index = i, initial_mode = 'normal' })
-            return
-          end
-        end
-        builtin.live_grep()
-      end, { silent = true, noremap = true })
     end,
   },
   {
@@ -160,24 +169,6 @@ local plugins = {
     end,
   },
   {
-    'nvim-lualine/lualine.nvim',
-    commit = '0ea56f9',
-    opts = {
-      options = {
-        section_separators = '',
-        component_separators = '',
-      },
-      sections = {
-        lualine_a = { 'mode' },
-        lualine_b = {},
-        lualine_c = { 'filename' },
-        lualine_x = { 'diff', { 'diagnostics', padding = { left = 0, right = 1 } } },
-        lualine_y = { { 'branch', icons_enabled = false, color = { gui = 'italic,bold' } } },
-        lualine_z = {},
-      },
-    },
-  },
-  {
     'folke/trouble.nvim',
     opts = {},
     cmd = 'Trouble',
@@ -225,6 +216,22 @@ local plugins = {
     },
     opts_extend = { 'sources.default' },
   },
+  -- {
+  --   'lukas-reineke/indent-blankline.nvim',
+  --   main = 'ibl',
+  --   config = function()
+  --     vim.api.nvim_set_hl(0, 'IndentMuted', { fg = '#3b4252', nocombine = true }) -- very muted gray (Nord palette)
+  --     require('ibl').setup({
+  --       indent = {
+  --         char = '╎',
+  --         highlight = { 'IndentMuted' },
+  --       },
+  --       scope = {
+  --         enabled = false,
+  --       },
+  --     })
+  --   end,
+  -- },
   {
     'echasnovski/mini.nvim',
     version = '*',
@@ -264,7 +271,11 @@ local plugins = {
       })
       require('mini.pick').setup()
       require('mini.cursorword').setup()
-      require('mini.indentscope').setup()
+      -- require('mini.indentscope').setup({
+      --   draw = {
+      --     animation = require('mini.indentscope').gen_animation.none(),
+      --   },
+      -- })
       require('mini.notify').setup()
       require('mini.surround').setup()
       local miniclue = require('mini.clue')

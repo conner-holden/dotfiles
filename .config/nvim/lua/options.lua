@@ -18,6 +18,7 @@ o.undofile = true
 g.mapleader = ' '
 g.maplocalleader = ' '
 o.shada = '\'1000,<100'
+o.statusline = '%f%m%r%h%w'
 o.updatetime = 300
 o.lazyredraw = true
 
