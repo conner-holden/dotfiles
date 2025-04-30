@@ -75,8 +75,6 @@ end)
 nmap('Q', ':bd<CR>')
 nmap('H', ':bp<CR>')
 nmap('L', ':bn<CR>')
-nmap('<C-E>', ':windo normal! <C-e><CR>')
-nmap('<C-Y>', ':windo normal! <C-y><CR>')
 
 -- Trouble.nvim
 nmap('<leader>xp', '<cmd>Trouble diagnostics toggle<cr>')
@@ -100,8 +98,10 @@ nmap('<leader>sf', function()
   require('grug-far').open({ prefills = { paths = vim.fn.expand('%') } })
 end)
 
--- Alt+e (MiniFiles)
-nmap('<A-e>', function()
+nmap('<A-e>', '<cmd>Oil<cr>')
+
+-- Alt+E (MiniFiles)
+nmap('<A-E>', function()
   require('mini.files').open(vim.api.nvim_buf_get_name(0), false)
   require('mini.files').reveal_cwd()
 end)
