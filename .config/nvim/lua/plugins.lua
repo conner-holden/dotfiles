@@ -233,6 +233,20 @@ local plugins = {
   --   end,
   -- },
   {
+    'stevearc/oil.nvim',
+    opts = {
+      keymaps = {
+        ['h'] = { 'actions.parent', mode = 'n' },
+        ['l'] = { 'actions.select', mode = 'n' },
+        ['q'] = { 'actions.close', mode = 'n' },
+        ['<A-e>'] = { 'actions.close', mode = 'n' },
+      },
+    },
+    dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+    -- dependencies = { 'nvim-tree/nvim-web-devicons' }, -- use if you prefer nvim-web-devicons
+    lazy = false,
+  },
+  {
     'echasnovski/mini.nvim',
     version = '*',
     config = function()
@@ -271,11 +285,6 @@ local plugins = {
       })
       require('mini.pick').setup()
       require('mini.cursorword').setup()
-      -- require('mini.indentscope').setup({
-      --   draw = {
-      --     animation = require('mini.indentscope').gen_animation.none(),
-      --   },
-      -- })
       require('mini.notify').setup()
       require('mini.surround').setup()
       local miniclue = require('mini.clue')
