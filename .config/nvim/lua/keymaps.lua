@@ -3,23 +3,21 @@ local builtin = require('telescope.builtin')
 local utils_grep = require('utils.grep')
 
 -- Custom map function with default silent = true
-local function map(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.silent = opts.silent == nil and true or opts.silent -- Default silent = true if not provided
-  vim.keymap.set(mode, lhs, rhs, opts)
+local function map(mode, lhs, rhs, desc)
+  vim.keymap.set(mode, lhs, rhs, { desc = desc or '', silent = true })
 end
 
 -- Mode-specific functions
-local function nmap(lhs, rhs, opts)
-  map('n', lhs, rhs, opts)
+local function nmap(lhs, rhs, desc)
+  map('n', lhs, rhs, desc)
 end
 
-local function imap(lhs, rhs, opts)
-  map('i', lhs, rhs, opts)
+local function imap(lhs, rhs, desc)
+  map('i', lhs, rhs, desc)
 end
 
-local function vmap(lhs, rhs, opts)
-  map('v', lhs, rhs, opts)
+local function vmap(lhs, rhs, desc)
+  map('v', lhs, rhs, desc)
 end
 
 -- Format code and write file
@@ -29,25 +27,24 @@ nmap('<A-w>', function()
   vim.schedule(function()
     vim.cmd('redraw')
   end)
-end)
+end, 'Write file and format code')
 
 -- Insert mode
-imap('jk', '<Esc>')
-imap('<C-v>', '<C-o>"+p')
+imap('jk', '<Esc>', 'Exit insert mode')
 
 -- Normal mode
 nmap('<A-q>', ':qa<CR>')
-nmap('gd', vim.lsp.buf.definition)
-nmap('g.', vim.lsp.buf.code_action)
+nmap('gd', vim.lsp.buf.definition, 'Go to definition')
+nmap('g.', vim.lsp.buf.code_action, 'Code action')
 nmap('gj', function()
   vim.diagnostic.goto_next({ buffer = 0 })
-end)
+end, 'Go to next diagnostic')
 nmap('gk', function()
   vim.diagnostic.goto_prev({ buffer = 0 })
-end)
+end, 'Go to previous diagnostic')
 
 -- Telescope command line
-nmap('<leader><leader>', ':Telescope cmdline<CR>')
+nmap('<leader><leader>', ':Telescope cmdline<CR>', 'Telescope cmdline')
 
 -- Telescope file search
 nmap('<leader>f', function()
@@ -56,7 +53,7 @@ nmap('<leader>f', function()
     prompt_title = false,
     previewer = false,
   })
-end)
+end, 'Find files')
 
 -- Telescope grep without extra result text and automatic search restoration
 nmap('<A-f>', function()
@@ -72,63 +69,65 @@ nmap('<A-f>', function()
     end
   end
   utils_grep.grep_without_snippet()
-end)
+end, 'Search file')
 
 -- Delete buffer
-nmap('Q', ':bd<CR>')
+nmap('Q', ':bd<CR>', 'Delete buffer')
 -- Previous buffer
-nmap('H', ':bp<CR>')
+nmap('H', ':bp<CR>', 'Go to previous buffer')
 -- Next buffer
-nmap('L', ':bn<CR>')
+nmap('L', ':bn<CR>', 'Go to next buffer')
 
 -- Trouble.nvim
-nmap('<leader>xp', '<cmd>silent! Trouble diagnostics toggle<cr>')
-nmap('<leader>xb', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>')
+nmap('<leader>xp', '<cmd>silent! Trouble diagnostics toggle<cr>', 'Trouble project diagnostics')
+nmap('<leader>xb', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', 'Trouble buffer diagnostics')
 nmap(
   '<leader>xe',
-  '<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>'
+  '<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>',
+  'Trouble errors'
 )
 
 -- Outline
-nmap('<leader>xs', '<cmd>Outline<cr>')
+nmap('<leader>xs', '<cmd>Outline<cr>', 'Outline symbols')
 
 -- grug-far
 nmap('<leader>sp', function()
   require('grug-far').open({ transient = true })
-end)
+end, 'Search and replace')
 nmap('<leader>sw', function()
   require('grug-far').open({ prefills = { search = vim.fn.expand('<cword>') } })
-end)
+end, 'Search and replace current word')
 nmap('<leader>sf', function()
   require('grug-far').open({ prefills = { paths = vim.fn.expand('%') } })
-end)
+end, 'Search and replace current file')
 
 -- Snacks explorer
-nmap('<A-e>', '<cmd>lua Snacks.explorer()<cr>')
+nmap('<A-e>', '<cmd>lua Snacks.explorer()<cr>', 'File explorer')
 
 -- Snacks help picker
-nmap('<leader>h', '<cmd>lua Snacks.picker.help()<cr>')
+nmap('<leader>h', '<cmd>lua Snacks.picker.help()<cr>', 'Search help')
 
 -- Snacks keymap picker
-nmap('<leader>k', '<cmd>lua Snacks.picker.keymaps()<cr>')
+nmap('<leader>k', '<cmd>lua Snacks.picker.keymaps()<cr>', 'Search keymaps')
 
 -- Snacks jumps picker
-nmap('<leader>j', '<cmd>lua Snacks.picker.jumps()<cr>')
+nmap('<leader>j', '<cmd>lua Snacks.picker.jumps()<cr>', 'Search jumps')
 
 -- Snacks buffer picker
-nmap('<leader>b', '<cmd>lua Snacks.picker.buffers()<cr>')
+nmap('<leader>b', '<cmd>lua Snacks.picker.buffers()<cr>', 'Search buffers')
 
 -- Oil
-nmap('<A-E>', '<cmd>Oil<cr>')
+nmap('<A-E>', '<cmd>Oil<cr>', 'File navigator')
 
 -- Visual mode
-vmap('.', '>gv')
-vmap(',', '<gv')
+vmap('.', '>gv', 'Increase indent')
+vmap(',', '<gv', 'Decrease indent')
 
 -- Copy to system clipboard
-vmap('<C-c>', '"+y')
-vmap('<leader>y', '"+y')
-nmap('<leader>y', '"+y')
+vmap('<C-c>', '"+y', 'Copy to system clipboard')
+vmap('<leader>y', '"+y', 'Copy to system clipboard')
+nmap('<leader>y', '"+y', 'Copy to system clipboard')
 -- Paste from system clipboard
-nmap('<C-v>', '"+p', { silent = true })
-nmap('<leader>p', '"+p', { silent = true })
+imap('<C-v>', '<C-o>"+p', 'Paste from system clipboard')
+nmap('<C-v>', '"+p', 'Paste from system clipboard')
+nmap('<leader>p', '"+p', 'Paste from system clipboard')
