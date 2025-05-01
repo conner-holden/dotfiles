@@ -64,7 +64,6 @@ local plugins = {
                   ['a'] = 'explorer_add',
                   ['d'] = 'explorer_del',
                   ['r'] = 'explorer_rename',
-                  ['c'] = 'explorer_copy',
                   ['m'] = 'explorer_move',
                   ['<A-e>'] = { 'close', mode = 'i' },
                 },
@@ -329,22 +328,6 @@ local plugins = {
     },
     opts_extend = { 'sources.default' },
   },
-  -- {
-  --   'lukas-reineke/indent-blankline.nvim',
-  --   main = 'ibl',
-  --   config = function()
-  --     vim.api.nvim_set_hl(0, 'IndentMuted', { fg = '#3b4252', nocombine = true }) -- very muted gray (Nord palette)
-  --     require('ibl').setup({
-  --       indent = {
-  --         char = '╎',
-  --         highlight = { 'IndentMuted' },
-  --       },
-  --       scope = {
-  --         enabled = false,
-  --       },
-  --     })
-  --   end,
-  -- },
   {
     'stevearc/oil.nvim',
     opts = {
@@ -357,7 +340,6 @@ local plugins = {
       },
     },
     dependencies = { { 'echasnovski/mini.icons', opts = {} } },
-    -- dependencies = { 'nvim-tree/nvim-web-devicons' }, -- use if you prefer nvim-web-devicons
     lazy = false,
   },
   {
