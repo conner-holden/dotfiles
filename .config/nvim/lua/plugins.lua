@@ -18,29 +18,26 @@ local plugins = {
         replace_netrw = true,
       },
       picker = {
+        prompt = '❯ ',
         sources = {
           explorer = {
             hidden = true,
             layout = {
               cycle = true,
               layout = {
-                box = 'horizontal',
-                position = 'float',
+                box = 'vertical',
                 height = 0.50,
                 width = 0.50,
-                border = 'rounded',
+                position = 'float',
                 {
-                  box = 'vertical',
-                  {
-                    win = 'input',
-                    height = 1,
-                    title = '',
-                    border = 'single',
-                  },
-                  { win = 'list' },
+                  win = 'input',
+                  height = 1,
+                  title = '',
+                  border = 'rounded',
                 },
-                { win = 'preview', width = 0, border = 'left' },
+                { win = 'list', border = 'rounded' },
               },
+              { win = 'preview', width = 0, border = 'left' },
             },
             focus = 'input',
             config = function(opts)
@@ -56,6 +53,7 @@ local plugins = {
                   require('snacks').picker.actions.close(picker, item, action)
                 end
               end
+              vim.api.nvim_set_hl(0, 'SnacksPickerPathHidden', { bg = 'none', fg = '#7b818e' })
               return require('snacks.picker.source.explorer').setup(opts)
             end,
             win = {
@@ -68,6 +66,7 @@ local plugins = {
                   ['r'] = 'explorer_rename',
                   ['c'] = 'explorer_copy',
                   ['m'] = 'explorer_move',
+                  ['<A-e>'] = { 'close', mode = 'i' },
                 },
               },
             },
@@ -77,6 +76,19 @@ local plugins = {
           },
         },
       },
+    },
+  },
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
+      { 'S', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
+      { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
+      { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
+      { '<c-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
     },
   },
   {
@@ -136,7 +148,7 @@ local plugins = {
           layout_strategy = 'vertical',
           results_title = false,
           prompt_title = false,
-          prompt_prefix = '',
+          prompt_prefix = '❯ ',
           selection_caret = '  ',
           cache_picker = {
             num_pickers = -1, -- No limits on caching. Change if performance problems occur.
@@ -429,4 +441,7 @@ require('lazy').setup({
   install = { colorscheme = { 'nord' } },
   checker = { enabled = true, notify = false, concurrency = 1 },
   rocks = { enabled = false },
+  ui = {
+    border = 'rounded',
+  },
 })
