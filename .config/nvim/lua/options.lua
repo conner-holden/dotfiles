@@ -64,3 +64,18 @@ g.loaded_tarPlugin = 1
 g.loaded_tohtml = 1
 g.loaded_tutor = 1
 g.loaded_zipPlugin = 1
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+  callback = function()
+    local bufname = vim.api.nvim_buf_get_name(0)
+    local is_empty = bufname == '' and vim.bo.filetype == ''
+
+    if is_empty then
+      vim.wo.number = false
+      vim.wo.cursorline = false
+    else
+      vim.wo.number = true
+      vim.wo.cursorline = true
+    end
+  end,
+})
