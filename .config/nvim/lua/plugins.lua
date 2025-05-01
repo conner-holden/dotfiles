@@ -12,6 +12,79 @@ local plugins = {
     end,
   },
   {
+    'folke/snacks.nvim',
+    opts = {
+      explorer = {
+        replace_netrw = true,
+      },
+      picker = {
+        sources = {
+          explorer = {
+            hidden = true,
+            layout = {
+              cycle = true,
+              layout = {
+                box = 'horizontal',
+                position = 'float',
+                height = 0.50,
+                width = 0.50,
+                border = 'rounded',
+                {
+                  box = 'vertical',
+                  {
+                    win = 'input',
+                    height = 1,
+                    title = '',
+                    border = 'single',
+                  },
+                  { win = 'list' },
+                },
+                { win = 'preview', width = 0, border = 'left' },
+              },
+            },
+            focus = 'input',
+            config = function(opts)
+              local actions = require('snacks.explorer.actions')
+              function actions.actions.confirm(picker, item, action)
+                if not item then
+                  return
+                elseif item.dir then
+                  require('snacks.explorer.tree'):toggle(item.file)
+                  actions.update(picker, { refresh = true })
+                else
+                  require('snacks').picker.actions.jump(picker, item, action)
+                  require('snacks').picker.actions.close(picker, item, action)
+                end
+              end
+              return require('snacks.picker.source.explorer').setup(opts)
+            end,
+            win = {
+              input = {
+                keys = {
+                  ['l'] = 'confirm',
+                  ['h'] = 'explorer_close',
+                  ['a'] = 'explorer_add',
+                  ['d'] = 'explorer_del',
+                  ['r'] = 'explorer_rename',
+                  ['c'] = 'explorer_copy',
+                  ['m'] = 'explorer_move',
+                },
+              },
+            },
+          },
+          projects = {
+            win = {},
+          },
+        },
+      },
+    },
+  },
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+  },
+  {
     'simonmclean/triptych.nvim',
     event = 'VeryLazy',
     dependencies = {
@@ -43,6 +116,9 @@ local plugins = {
 
       vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'none', bold = true, italic = true })
       vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'none', italic = true })
+      vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none', fg = '#d8dee9' })
+      vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none', fg = '#4c566a' })
+      vim.api.nvim_set_hl(0, 'WinSeparator', { bg = 'none', fg = '#3b4252' })
     end,
   },
   { 'nvim-lua/plenary.nvim' },
@@ -169,8 +245,33 @@ local plugins = {
     end,
   },
   {
+    'hedyhli/outline.nvim',
+    lazy = true,
+    cmd = { 'Outline', 'OutlineOpen' },
+    opts = {
+      outline_window = {
+        auto_jump = true,
+        width = 25,
+        relative_width = false,
+      },
+      outline_items = {
+        show_symbol_details = false,
+      },
+    },
+  },
+  {
     'folke/trouble.nvim',
-    opts = {},
+    opts = {
+      -- focus = true,
+      -- auto_preview = false,
+      -- win = {
+      --   type = 'float',
+      --   border = 'rounded',
+      -- },
+      -- keys = {
+      --   ['<cr>'] = 'jump_close',
+      -- },
+    },
     cmd = 'Trouble',
   },
   {
@@ -235,11 +336,12 @@ local plugins = {
   {
     'stevearc/oil.nvim',
     opts = {
+      default_file_explorer = false,
       keymaps = {
         ['h'] = { 'actions.parent', mode = 'n' },
         ['l'] = { 'actions.select', mode = 'n' },
         ['q'] = { 'actions.close', mode = 'n' },
-        ['<A-e>'] = { 'actions.close', mode = 'n' },
+        ['<A-E>'] = { 'actions.close', mode = 'n' },
       },
     },
     dependencies = { { 'echasnovski/mini.icons', opts = {} } },
@@ -250,39 +352,6 @@ local plugins = {
     'echasnovski/mini.nvim',
     version = '*',
     config = function()
-      require('mini.files').setup({
-        mappings = {
-          go_in_plus = 'l',
-          go_in = 'L',
-        },
-        windows = {
-          width_focus = 30,
-        },
-      })
-
-      local map_split = function(buf_id, lhs, direction)
-        local rhs = function()
-          local cur_target = require('mini.files').get_explorer_state().target_window
-          local new_target = vim.api.nvim_win_call(cur_target, function()
-            vim.cmd(direction .. ' split')
-            return vim.api.nvim_get_current_win()
-          end)
-
-          require('mini.files').set_target_window(new_target)
-          require('mini.files').go_in({ close_on_file = true })
-        end
-        local desc = 'Split ' .. direction
-        vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
-      end
-
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'MiniFilesBufferCreate',
-        callback = function(args)
-          local buf_id = args.data.buf_id
-          map_split(buf_id, '<C-h>', 'belowright horizontal')
-          map_split(buf_id, '<C-v>', 'belowright vertical')
-        end,
-      })
       require('mini.pick').setup()
       require('mini.cursorword').setup()
       require('mini.notify').setup()
