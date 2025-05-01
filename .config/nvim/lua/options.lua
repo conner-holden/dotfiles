@@ -1,6 +1,33 @@
 local o = vim.opt
 local g = vim.g
 
+function FilterFiletypes()
+  local ft = vim.bo.filetype
+  if ft == 'Trouble' then
+    return ''
+  end
+  return vim.fn.expand('%:t')
+end
+
+function _G.TabLine()
+  local s = ''
+  local tab_count = vim.fn.tabpagenr('$')
+  local current_tab = vim.fn.tabpagenr()
+
+  for i = 1, tab_count do
+    local highlight = (i == current_tab) and '%#TabLineSel#' or '%#TabLine#'
+    local tab_cwd = vim.fn.getcwd(-1, i) -- CWD for tab i
+    -- local tab_cwd = vim.fn.systemlist('git -C ' .. vim.fn.getcwd(-1, i) .. ' rev-parse --show-toplevel')[1]
+    --   or vim.fn.getcwd(-1, i)
+    local project_name = vim.fn.fnamemodify(tab_cwd, ':t') or '[No Name]'
+
+    s = s .. string.format('%s%%%dT %s %%T', highlight, i, project_name)
+  end
+
+  s = s .. '%#TabLineFill#'
+  return s
+end
+
 o.cursorline = true
 o.cmdheight = 0
 o.hlsearch = false
@@ -15,12 +42,14 @@ o.smartindent = true
 o.tabstop = 2
 o.timeoutlen = 200
 o.undofile = true
+o.laststatus = 3
 g.mapleader = ' '
 g.maplocalleader = ' '
 o.shada = '\'1000,<100'
-o.statusline = '%f%m%r%h%w'
+o.statusline = '%{%v:lua.FilterFiletypes()%}%r%h%w'
 o.updatetime = 300
 o.lazyredraw = true
+o.tabline = '%!v:lua.TabLine()'
 
 -- disable builtin plugins
 g.loaded_netrw = 1
