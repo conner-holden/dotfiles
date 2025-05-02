@@ -9,11 +9,18 @@ return {
   config = function()
     require('telescope').setup({
       defaults = {
+        layout_config = {
+          preview_cutoff = 0,
+          horizontal = { preview_width = 0.5 },
+          vertical = { height = 0.95 },
+        },
         layout_strategy = 'vertical',
         results_title = false,
         prompt_title = false,
+        preview_title = false,
         prompt_prefix = '❯ ',
         selection_caret = '  ',
+        pickers = { live_grep = { previewer = true } },
         cache_picker = {
           num_pickers = -1, -- No limits on caching. Change if performance problems occur.
         },

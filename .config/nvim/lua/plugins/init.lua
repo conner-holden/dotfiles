@@ -14,6 +14,7 @@ local plugins = {
   'oil',
   'outline',
   'rustaceanvim',
+  'showkeys',
   'snacks',
   'telescope',
   'treesitter',
@@ -49,7 +50,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   spec = spec,
   install = { colorscheme = { 'nord' } },
-  checker = { enabled = true, notify = false, concurrency = 1 },
+  checker = { enabled = true, notify = false },
   rocks = { enabled = false },
   ui = {
     border = 'rounded',

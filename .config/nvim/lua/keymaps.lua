@@ -16,8 +16,8 @@ local function imap(lhs, rhs, desc)
   map('i', lhs, rhs, desc)
 end
 
-local function vmap(lhs, rhs, desc)
-  map('v', lhs, rhs, desc)
+local function xmap(lhs, rhs, desc)
+  map('x', lhs, rhs, desc)
 end
 
 -- Format code and write file
@@ -33,7 +33,7 @@ end, 'Write file and format code')
 imap('jk', '<Esc>', 'Exit insert mode')
 
 -- Normal mode
-nmap('<A-q>', ':qa<CR>')
+nmap('<A-q>', ':qa<cr>', 'Quit Neovim')
 nmap('gd', vim.lsp.buf.definition, 'Go to definition')
 nmap('g.', vim.lsp.buf.code_action, 'Code action')
 nmap('gj', function()
@@ -44,7 +44,7 @@ nmap('gk', function()
 end, 'Go to previous diagnostic')
 
 -- Telescope command line
-nmap('<leader><leader>', ':Telescope cmdline<CR>', 'Telescope cmdline')
+nmap('<leader><leader>', ':Telescope cmdline<cr>', 'Telescope cmdline')
 
 -- Telescope file search
 nmap('<leader>f', function()
@@ -72,11 +72,11 @@ nmap('<A-f>', function()
 end, 'Search file')
 
 -- Delete buffer
-nmap('Q', ':bd<CR>', 'Delete buffer')
+nmap('Q', ':bd<cr>', 'Delete buffer')
 -- Previous buffer
-nmap('H', ':bp<CR>', 'Go to previous buffer')
+nmap('H', ':bp<cr>', 'Go to previous buffer')
 -- Next buffer
-nmap('L', ':bn<CR>', 'Go to next buffer')
+nmap('L', ':bn<cr>', 'Go to next buffer')
 
 -- Trouble.nvim
 nmap('<leader>xp', '<cmd>silent! Trouble diagnostics toggle<cr>', 'Trouble project diagnostics')
@@ -116,18 +116,25 @@ nmap('<leader>j', '<cmd>lua Snacks.picker.jumps()<cr>', 'Search jumps')
 -- Snacks buffer picker
 nmap('<leader>b', '<cmd>lua Snacks.picker.buffers()<cr>', 'Search buffers')
 
+-- Snacks project picker
+nmap('<leader>p', '<cmd>lua Snacks.picker.projects()<cr>', 'Search projects')
+
+-- Flash
+nmap('s', function()
+  require('flash').jump()
+end, 'Flash')
+
 -- Oil
 nmap('<A-E>', '<cmd>Oil<cr>', 'File navigator')
 
 -- Visual mode
-vmap('.', '>gv', 'Increase indent')
-vmap(',', '<gv', 'Decrease indent')
+xmap('.', '>gv', 'Increase indent')
+xmap(',', '<gv', 'Decrease indent')
 
 -- Copy to system clipboard
-vmap('<C-c>', '"+y', 'Copy to system clipboard')
-vmap('<leader>y', '"+y', 'Copy to system clipboard')
+xmap('<C-c>', '"+y', 'Copy to system clipboard')
+xmap('<leader>y', '"+y', 'Copy to system clipboard')
 nmap('<leader>y', '"+y', 'Copy to system clipboard')
 -- Paste from system clipboard
 imap('<C-v>', '<C-o>"+p', 'Paste from system clipboard')
 nmap('<C-v>', '"+p', 'Paste from system clipboard')
-nmap('<leader>p', '"+p', 'Paste from system clipboard')
