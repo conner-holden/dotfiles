@@ -28,16 +28,44 @@ return {
           },
           focus = 'input',
           config = function(opts)
-            local actions = require('snacks.explorer.actions')
-            function actions.actions.confirm(picker, item, action)
+            local Snacks = require('snacks')
+            local Actions = require('snacks.picker.actions')
+            local Explorer = require('snacks.explorer.actions')
+
+            function Explorer.actions.confirm(picker, item, action)
               if not item then
                 return
               elseif item.dir then
                 require('snacks.explorer.tree'):toggle(item.file)
-                actions.update(picker, { refresh = true })
+                Explorer.update(picker, { refresh = true })
               else
-                require('snacks').picker.actions.jump(picker, item, action)
-                require('snacks').picker.actions.close(picker, item, action)
+                Actions.jump(picker, item, action)
+                Actions.close(picker, item, action)
+              end
+            end
+
+            function Actions.load_session(picker, item)
+              picker:close()
+              if not item then
+                return
+              end
+              local dir = item.file
+              local session_loaded = false
+              vim.api.nvim_create_autocmd('SessionLoadPost', {
+                once = true,
+                callback = function()
+                  session_loaded = true
+                end,
+              })
+              vim.defer_fn(function()
+                if not session_loaded then
+                  Snacks.picker.explorer()
+                end
+              end, 100)
+              vim.fn.chdir(dir)
+              local session = Snacks.dashboard.sections.session()
+              if session then
+                vim.cmd(session.action:sub(2))
               end
             end
             vim.api.nvim_set_hl(0, 'SnacksPickerPathHidden', { bg = 'none', fg = '#7b818e' })
@@ -58,7 +86,22 @@ return {
           },
         },
         projects = {
-          win = {},
+          win = {
+            input = {
+              keys = {
+                ['<c-t>'] = {
+                  function(picker)
+                    local snacks = require('snacks')
+                    vim.cmd('tabnew')
+                    snacks.notify('New tab opened')
+                    picker:close()
+                    -- snacks.picker.projects()
+                  end,
+                  mode = { 'n', 'i' },
+                },
+              },
+            },
+          },
         },
       },
     },
