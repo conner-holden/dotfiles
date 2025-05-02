@@ -70,7 +70,7 @@ function all {
 }
 
 function neovim {
-  curl -fsSL https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -o $LOCAL_BIN/nvim \
+  curl -fsSL https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage -o $LOCAL_BIN/nvim \
     && chmod +x $LOCAL_BIN/nvim
 }
 
