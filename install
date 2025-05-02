@@ -65,6 +65,8 @@ function all {
   ngrok
   fly
   starship
+  fzf
+  zsh_plugins
 }
 
 function neovim {
@@ -107,7 +109,7 @@ function rustup {
 }
 
 function starship {
-  curl --proto '=https' --tlsv1.2 -sS https://starship.rs/install.sh | sh
+  BIN_DIR=$LOCAL_BIN curl --proto '=https' --tlsv1.2 -sS https://starship.rs/install.sh | sh
 }
 
 function saml2aws {
@@ -204,6 +206,22 @@ function ngrok {
 
 function fly {
   curl -fsSL https://fly.io/install.sh | sh
+}
+
+function fzf {
+  curl -fsSL https://github.com/junegunn/fzf/releases/download/v0.61.3/fzf-0.61.3-linux_amd64.tar.gz \
+    | tar -xz -C $LOCAL_BIN fzf \
+    && chmod +x $LOCAL_BIN/fzf \
+    && command fzf --version
+}
+
+function zsh_plugins {
+  rm -rf ~/.zsh
+  mkdir ~/.zsh
+
+  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-completions ~/.zsh/zsh-completions
 }
 
 "$@"
