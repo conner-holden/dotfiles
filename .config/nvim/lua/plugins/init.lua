@@ -20,7 +20,9 @@ local plugins = {
   'trouble',
 }
 
-local spec = {}
+local spec = {
+  { 'nvim-tree/nvim-web-devicons', opts = {} },
+}
 for _, name in ipairs(plugins) do
   if name ~= 'init' then
     table.insert(spec, { import = 'plugins.' .. name })
