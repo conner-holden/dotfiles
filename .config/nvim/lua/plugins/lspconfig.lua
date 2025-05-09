@@ -16,5 +16,7 @@ return {
     lsp.svelte.setup({ capabilities = capabilities })
     lsp.vtsls.setup({ capabilities = capabilities })
     lsp.tailwindcss.setup({ capabilities = capabilities })
+    lsp.terraformls.setup({ capabilities = capabilities })
+    lsp.tflint.setup({})
   end,
 }

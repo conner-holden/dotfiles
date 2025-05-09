@@ -79,3 +79,10 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.tf',
+  callback = function()
+    vim.bo.filetype = 'terraform'
+  end,
+})

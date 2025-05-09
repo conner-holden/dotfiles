@@ -39,7 +39,15 @@ function links {
   ln -s $DOTFILES/.local/share/fonts $HOME/.local/share/fonts
 }
 
-function all {
+function env {
+  gnome_themes
+  theme
+  fonts
+  icons
+  desktop
+}
+
+function packages {
   neovim
   zoxide
   zen
@@ -235,6 +243,79 @@ function gh {
     && sudo apt update \
     && sudo apt install gh -y
   gh ext install meiji163/gh-notify
+}
+
+function gnome_themes {
+  file="user-themegnome-shell-extensions.gcampax.github.com.v49.shell-extension.zip"
+  dest="$HOME/.local/share/gnome-shell/extensions"
+  plugin="user-theme@gnome-shell-extensions.gcampax.github.com"
+  # For possible use later.
+  # gnome_version=$(gnome-shell --version | awk '{print $3}' | awk -F'.' '{print $1}')
+
+  wget "https://extensions.gnome.org/extension-data/$file"
+  mkdir -p "$dest"
+  unzip "$file" -d "$dest/$plugin"
+  gnome-extensions enable "$plugin"
+  rm "$file"
+}
+
+function theme {
+  file="theme.tar.xz"
+
+  curl -sLo "$file" "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-bluish-accent-v40.tar.xz"
+  mkdir ~/.themes
+  tar -xf "$file" -C ~/.themes
+
+  dconf write /org/gnome/desktop/interface/gtk-theme "'Nordic-bluish-accent-v40'"
+  dconf write /org/gnome/shell/extensions/user-theme/name "'Nordic-bluish-accent-v40'"
+
+  rm "$file"
+}
+
+function icons {
+  git clone https://github.com/alvatip/Nordzy-icon icons
+  cd icons/
+  sudo ./install.sh
+  cd ..
+  rm -rf icons
+  dconf write /org/gnome/desktop/interface/icon-theme "'Nordzy-dark'"
+}
+
+function desktop {
+  image_dir="$HOME/pictures"
+  mkdir "$image_dir"
+  image="background.jpeg"
+
+  cp "image/$image" "$image_dir"
+  gsettings set org.gnome.shell.extensions.pop-shell show-title false
+  gsettings set org.gnome.shell.extensions.pop-shell active-hint true
+  # Below does not appear to work. Hex is #81A1C1.
+  gsettings set org.gnome.shell.extensions.pop-shell hint-color-rgba 'rbg(129,161,193)'
+  gsettings set org.gnome.shell.extensions.pop-shell gap-inner 5
+  gsettings set org.gnome.shell.extensions.pop-shell gap-outer 5
+  gsettings set org.gnome.desktop.background show-desktop-icons false
+  gsettings set org.gnome.desktop.background picture-uri "file://$image_dir/$image"
+  gsettings set org.gnome.desktop.background picture-uri-dark "file://$image_dir/$image"
+
+  killall -3 gnome-shell
+}
+
+function fonts {
+  font_dir="$HOME/.fonts/"
+
+  curl -sLo font.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/CascadiaCode.zip"
+  mkdir tmp
+  unzip font.zip -d tmp
+  mkdir "$font_dir"
+
+  mv tmp/Caskaydia\ Cove\ Nerd\ Font\ Complete\ Mono\ Bold.otf "$font_dir"
+  mv tmp/Caskaydia\ Cove\ Nerd\ Font\ Complete\ Mono\ Regular.otf "$font_dir"
+  mv tmp/Caskaydia\ Cove\ Nerd\ Font\ Complete\ Mono\ Italic.otf "$font_dir"
+  mv tmp/Caskaydia\ Cove\ Nerd\ Font\ Complete\ Mono\ Bold\ Italic.otf "$font_dir"
+  fc-cache -fv | grep "$font_dir"
+
+  rm -rf tmp
+  rm font.zip
 }
 
 "$@"
