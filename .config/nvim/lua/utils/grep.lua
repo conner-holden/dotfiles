@@ -10,7 +10,7 @@ function M.grep_without_snippet()
   builtin.live_grep({
     hidden = true,
     prompt_title = false,
-    preview_title = false,
+    preview_title = 'Search',
     entry_maker = function(entry)
       local item = make_entry.gen_from_vimgrep({})(entry)
 

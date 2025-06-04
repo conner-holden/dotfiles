@@ -63,7 +63,7 @@ nmap('<A-f>', function()
     return
   end
   for i, v in ipairs(pickers) do
-    if v.prompt_title == 'Live Grep' then
+    if v.preview_title == 'Search' then
       builtin.resume({ cache_index = i, initial_mode = 'normal' })
       return
     end

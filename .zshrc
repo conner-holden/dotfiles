@@ -25,6 +25,7 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export PATH="$HOME/.atuin/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.volta/bin:$PATH"
+export PATH="$PATH:/usr/local/go/bin"
 
 alias ls='eza'
 alias ll="eza -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user --time-style '+%m/%d/%y [%H:%M]'"
