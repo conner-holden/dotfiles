@@ -1,4 +1,5 @@
 local builtin = require('telescope.builtin')
+local action_state = require('telescope.actions.state')
 
 local utils_grep = require('utils.grep')
 
@@ -62,9 +63,29 @@ nmap('<A-f>', function()
     utils_grep.grep_without_snippet()
     return
   end
-  for i, v in ipairs(pickers) do
-    if v.preview_title == 'Search' then
-      builtin.resume({ cache_index = i, initial_mode = 'normal' })
+  for _, p in ipairs(pickers) do
+    if p.preview_title == 'Search' then
+      utils_grep.grep_without_snippet({ default_text = p.default_text, initial_mode = 'normal' })
+      -- builtin.resume({ cache_index = i, initial_mode = 'normal' })
+
+      -- Refresh results (taken from git picker)
+      -- vim.defer_fn(function()
+      --   local prompt_bufnr = vim.api.nvim_get_current_buf()
+      --
+      --   local picker = action_state.get_current_picker(prompt_bufnr)
+      --
+      --   -- temporarily register a callback which keeps selection on refresh
+      --   -- local selection = picker:get_selection_row()
+      --   -- local callbacks = { unpack(picker._completion_callbacks) } -- shallow copy
+      --   -- picker:register_completion_callback(function(self)
+      --   --   self:set_selection(selection)
+      --   --   self._completion_callbacks = callbacks
+      --   -- end)
+      --
+      --   -- refresh
+      --   picker:refresh(nil, { reset_prompt = false })
+      -- end, 50)
+
       return
     end
   end

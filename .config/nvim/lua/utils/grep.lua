@@ -6,11 +6,14 @@ local entry_display = require('telescope.pickers.entry_display')
 local devicons = require('nvim-web-devicons')
 local Path = require('plenary.path')
 
-function M.grep_without_snippet()
+function M.grep_without_snippet(opts)
+  opts = opts or {}
   builtin.live_grep({
     hidden = true,
     prompt_title = false,
     preview_title = 'Search',
+    default_text = opts.default_text,
+    initial_mode = opts.initial_mode,
     entry_maker = function(entry)
       local item = make_entry.gen_from_vimgrep({})(entry)
 
