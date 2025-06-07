@@ -23,3 +23,4 @@ keybind = shift+alt+h=goto_split:previous
 keybind = shift+alt+l=goto_split:next
 keybind = alt+d=scroll_page_down
 keybind = alt+u=scroll_page_up
+keybind = shift+enter=text:\n
