@@ -2,6 +2,7 @@ local plugins = {
   'autopairs',
   'blink',
   'comment',
+  'comment_ts',
   'conform',
   'flash',
   'gitsigns',
