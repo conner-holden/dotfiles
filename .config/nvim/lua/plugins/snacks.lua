@@ -80,6 +80,8 @@ return {
                 ['d'] = 'explorer_del',
                 ['r'] = 'explorer_rename',
                 ['m'] = 'explorer_move',
+                ['<C-i>'] = 'toggle_ignored',
+                ['<C-h>'] = 'toggle_hidden',
                 ['<A-e>'] = { 'close', mode = 'i' },
               },
             },
