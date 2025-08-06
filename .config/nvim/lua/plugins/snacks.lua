@@ -13,7 +13,7 @@ return {
             cycle = true,
             layout = {
               box = 'vertical',
-              height = 0.50,
+              height = 0.80,
               width = 0.50,
               position = 'float',
               {
