@@ -33,7 +33,9 @@ return {
     lsp.tailwindcss.setup({ capabilities = capabilities })
     lsp.terraformls.setup({ capabilities = capabilities })
     lsp.tflint.setup({})
+    lsp.kotlin_language_server.setup({})
     lsp.gopls.setup({})
+    lsp.golangci_lint_ls.setup({})
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
