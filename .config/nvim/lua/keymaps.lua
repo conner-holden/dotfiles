@@ -43,6 +43,48 @@ end, 'Go to next diagnostic')
 nmap('gk', function()
   vim.diagnostic.goto_prev({ buffer = 0 })
 end, 'Go to previous diagnostic')
+-- Replace all instances of a word
+nmap('<leader>r', function()
+  local word = vim.fn.expand('<cword>')
+  if word ~= '' then
+    -- Save current cursor position
+    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+
+    -- Create the pattern
+    local pattern = '\\<' .. vim.fn.escape(word, '/\\') .. '\\>'
+
+    -- Use feedkeys to simulate typing the search command
+    vim.cmd('set hlsearch')
+    vim.api.nvim_feedkeys('/' .. pattern .. '\n', 'n', false)
+
+    -- Small delay to let the search complete, then restore position and get count
+    vim.defer_fn(function()
+      -- Restore cursor position
+      vim.api.nvim_win_set_cursor(0, cursor_pos)
+
+      local count = vim.fn.searchcount({ pattern = pattern, maxcount = 999 }).total
+
+      if count > 0 then
+        vim.ui.input({
+          prompt = 'Replace ' .. count .. ' instances of "' .. word .. '" with: ',
+        }, function(replacement)
+          if replacement then
+            local escaped_replacement = vim.fn.escape(replacement, '/\\')
+            vim.cmd('%s/' .. pattern .. '/' .. escaped_replacement .. '/g')
+            vim.cmd('nohlsearch')
+            -- Restore cursor position after replacement
+            vim.api.nvim_win_set_cursor(0, cursor_pos)
+          else
+            vim.cmd('nohlsearch')
+          end
+        end)
+      else
+        print('No instances of "' .. word .. '" found')
+        vim.cmd('nohlsearch')
+      end
+    end, 10)
+  end
+end)
 
 -- Telescope command line
 nmap('<leader><leader>', ':Telescope cmdline<cr>', 'Telescope cmdline')

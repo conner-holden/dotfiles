@@ -28,8 +28,33 @@ return {
       },
     })
     lsp.ruff.setup({ capabilities = capabilities })
-    lsp.svelte.setup({ capabilities = capabilities })
-    lsp.vtsls.setup({ capabilities = capabilities })
+    lsp.svelte.setup({ 
+      capabilities = capabilities,
+      settings = {
+        svelte = {
+          plugin = {
+            svelte = {
+              compilerWarnings = {
+                ['a11y-autofocus'] = 'ignore',
+              }
+            }
+          }
+        }
+      }
+    })
+    lsp.vtsls.setup({ 
+      capabilities = capabilities,
+      settings = {
+        typescript = {
+          preferences = {
+            watchDirectory = "useFsEvents"
+          }
+        },
+        vtsls = {
+          autoUseWorkspaceTsdk = true
+        }
+      }
+    })
     lsp.tailwindcss.setup({ capabilities = capabilities })
     lsp.terraformls.setup({ capabilities = capabilities })
     lsp.tflint.setup({})
@@ -50,6 +75,27 @@ return {
         end
       end,
       desc = 'LSP: Disable hover capability from Ruff',
+    })
+
+    -- Auto-refresh LSP when TypeScript files change
+    vim.api.nvim_create_autocmd({'BufWritePost'}, {
+      pattern = {'**/src/**/*.ts', '**/src/**/*.js', '**/*.d.ts'},
+      callback = function()
+        -- Refresh all TypeScript LSP clients
+        for _, client in pairs(vim.lsp.get_active_clients()) do
+          if client.name == 'vtsls' or client.name == 'svelte' then
+            vim.schedule(function()
+              client.notify('workspace/didChangeWatchedFiles', {
+                changes = {{
+                  uri = vim.uri_from_fname(vim.fn.expand('%:p')),
+                  type = 2 -- Changed
+                }}
+              })
+            end)
+          end
+        end
+      end,
+      desc = 'Refresh LSP when TypeScript files change'
     })
   end,
 }
