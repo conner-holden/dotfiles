@@ -4,6 +4,7 @@ return {
   cmd = { 'Outline', 'OutlineOpen' },
   opts = {
     outline_window = {
+      position = 'left',
       auto_jump = true,
       width = 25,
       relative_width = false,

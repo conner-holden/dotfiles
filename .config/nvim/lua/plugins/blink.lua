@@ -4,7 +4,6 @@ return {
     'rafamadriz/friendly-snippets',
     'mikavilpas/blink-ripgrep.nvim',
   },
-  version = '1.*',
   opts = {
     keymap = { preset = 'default' },
     appearance = {

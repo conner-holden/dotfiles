@@ -151,7 +151,7 @@ nmap(
 )
 
 -- Outline
-nmap('<leader>xs', '<cmd>Outline<cr>', 'Outline symbols')
+nmap('<leader>o', '<cmd>Outline<cr>', 'Outline symbols')
 
 -- grug-far
 nmap('<leader>sp', function()
@@ -160,7 +160,7 @@ end, 'Search and replace')
 nmap('<leader>sw', function()
   require('grug-far').open({ prefills = { search = vim.fn.expand('<cword>') } })
 end, 'Search and replace current word')
-nmap('<leader>sf', function()
+nmap('<leader>ss', function()
   require('grug-far').open({ prefills = { paths = vim.fn.expand('%') } })
 end, 'Search and replace current file')
 
@@ -201,3 +201,6 @@ nmap('<leader>y', '"+y', 'Copy to system clipboard')
 -- Paste from system clipboard
 imap('<C-v>', '<C-o>"+p', 'Paste from system clipboard')
 nmap('<C-v>', '"+p', 'Paste from system clipboard')
+
+-- LSP
+nmap('K', '<cmd>lua vim.lsp.buf.hover({ border = "rounded" })<cr>')

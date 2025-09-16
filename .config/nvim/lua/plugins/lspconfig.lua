@@ -1,9 +1,9 @@
 return {
   'neovim/nvim-lspconfig',
-  version = 'v1.8.0',
   config = function()
     local capabilities = require('blink.cmp').get_lsp_capabilities()
     local lsp = require('lspconfig')
+
     lsp.lua_ls.setup({
       settings = {
         Lua = {
@@ -28,7 +28,7 @@ return {
       },
     })
     lsp.ruff.setup({ capabilities = capabilities })
-    lsp.svelte.setup({ 
+    lsp.svelte.setup({
       capabilities = capabilities,
       settings = {
         svelte = {
@@ -36,24 +36,24 @@ return {
             svelte = {
               compilerWarnings = {
                 ['a11y-autofocus'] = 'ignore',
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     })
-    lsp.vtsls.setup({ 
+    lsp.vtsls.setup({
       capabilities = capabilities,
       settings = {
         typescript = {
           preferences = {
-            watchDirectory = "useFsEvents"
-          }
+            watchDirectory = 'useFsEvents',
+          },
         },
         vtsls = {
-          autoUseWorkspaceTsdk = true
-        }
-      }
+          autoUseWorkspaceTsdk = true,
+        },
+      },
     })
     lsp.tailwindcss.setup({ capabilities = capabilities })
     lsp.terraformls.setup({ capabilities = capabilities })
@@ -77,25 +77,40 @@ return {
       desc = 'LSP: Disable hover capability from Ruff',
     })
 
-    -- Auto-refresh LSP when TypeScript files change
-    vim.api.nvim_create_autocmd({'BufWritePost'}, {
-      pattern = {'**/src/**/*.ts', '**/src/**/*.js', '**/*.d.ts'},
-      callback = function()
-        -- Refresh all TypeScript LSP clients
-        for _, client in pairs(vim.lsp.get_active_clients()) do
-          if client.name == 'vtsls' or client.name == 'svelte' then
-            vim.schedule(function()
-              client.notify('workspace/didChangeWatchedFiles', {
-                changes = {{
-                  uri = vim.uri_from_fname(vim.fn.expand('%:p')),
-                  type = 2 -- Changed
-                }}
-              })
-            end)
+    -- Generic function to create LSP refresh autocmds
+    local function create_lsp_refresh_autocmd(patterns, client_names, description)
+      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+        pattern = patterns,
+        callback = function()
+          for _, client in pairs(vim.lsp.get_active_clients()) do
+            if vim.tbl_contains(client_names, client.name) then
+              vim.schedule(function()
+                client.notify('workspace/didChangeWatchedFiles', {
+                  changes = {
+                    {
+                      uri = vim.uri_from_fname(vim.fn.expand('%:p')),
+                      type = 2, -- Changed
+                    },
+                  },
+                })
+              end)
+            end
           end
-        end
-      end,
-      desc = 'Refresh LSP when TypeScript files change'
-    })
+        end,
+        desc = description,
+      })
+    end
+
+    create_lsp_refresh_autocmd(
+      { '**/src/**/*.ts', '**/src/**/*.js', '**/*.d.ts' },
+      { 'vtsls', 'svelte' },
+      'Refresh LSP when TypeScript files change'
+    )
+
+    create_lsp_refresh_autocmd(
+      { '*.tf', '*.tfvars', '*.hcl' },
+      { 'terraformls', 'tflint' },
+      'Refresh LSP when Terraform files change'
+    )
   end,
 }

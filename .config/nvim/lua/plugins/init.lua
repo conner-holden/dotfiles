@@ -4,6 +4,7 @@ local plugins = {
   'comment',
   'comment_ts',
   'conform',
+  'fidget',
   'flash',
   'gitsigns',
   'grugfar',

@@ -17,6 +17,7 @@ bindkey -M vicmd 'y' vi-yank-xclip
 PROMPT_EOL_MARK=''
 
 export EDITOR=nvim
+export BROWSER=zen
 export XDG_CONFIG_HOME="$HOME/.config"
 export VOLTA_HOME="$HOME/.volta"
 export FLYCTL_INSTALL="/home/ch/.fly"

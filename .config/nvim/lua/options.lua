@@ -2,11 +2,33 @@ local o = vim.opt
 local g = vim.g
 
 function FilterFiletypes()
-  local ft = vim.bo.filetype
-  if ft == 'Trouble' then
-    return ''
+  local filename = vim.fn.expand('%:t')
+  
+  -- Only show filename if it contains a dot (likely a real file)
+  if filename:match('%.') then
+    local filepath = vim.fn.expand('%:p')
+    if filepath == '' then
+      return ''
+    end
+
+    -- Get relative path from project root
+    local relative_path = vim.fn.fnamemodify(filepath, ':.')
+
+    -- If no directory separator, just return filename
+    local last_slash = relative_path:match('.*()/')
+    if not last_slash then
+      return relative_path
+    end
+
+    -- Split into directory and filename
+    local dir_part = relative_path:sub(1, last_slash - 1)
+    local file_part = relative_path:sub(last_slash + 1)
+
+    -- Return with Comment highlight for directory part
+    return '%#Comment#' .. dir_part .. '/%*' .. file_part
   end
-  return vim.fn.expand('%:t')
+  
+  return ''
 end
 
 function _G.TabLine()
