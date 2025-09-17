@@ -13,7 +13,6 @@ local plugins = {
   'mason_lspconfig',
   'mini',
   'nord',
-  'oil',
   'outline',
   'rustaceanvim',
   'showkeys',

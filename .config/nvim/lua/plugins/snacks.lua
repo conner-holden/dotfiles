@@ -5,7 +5,7 @@ return {
       replace_netrw = true,
     },
     picker = {
-      prompt = '❯ ',
+      prompt = ' ❯',
       sources = {
         explorer = {
           hidden = true,
@@ -76,13 +76,14 @@ return {
               keys = {
                 ['l'] = 'confirm',
                 ['h'] = 'explorer_close',
-                ['a'] = 'explorer_add',
-                ['d'] = 'explorer_del',
+                ['<C-a>'] = 'explorer_add',
+                ['<C-d>'] = 'explorer_del',
                 ['r'] = 'explorer_rename',
                 ['m'] = 'explorer_move',
                 ['<C-i>'] = 'toggle_ignored',
                 ['<C-h>'] = 'toggle_hidden',
                 ['<A-e>'] = { 'close', mode = 'i' },
+                ['<esc>'] = { 'close', mode = 'i' },
               },
             },
           },
