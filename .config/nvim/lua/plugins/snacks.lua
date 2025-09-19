@@ -83,7 +83,6 @@ return {
                 ['<C-i>'] = 'toggle_ignored',
                 ['<C-h>'] = 'toggle_hidden',
                 ['<A-e>'] = { 'close', mode = 'i' },
-                ['<esc>'] = { 'close', mode = 'i' },
               },
             },
           },

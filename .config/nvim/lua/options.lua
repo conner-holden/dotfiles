@@ -3,7 +3,7 @@ local g = vim.g
 
 function FilterFiletypes()
   local filename = vim.fn.expand('%:t')
-  
+
   -- Only show filename if it contains a dot (likely a real file)
   if filename:match('%.') then
     local filepath = vim.fn.expand('%:p')
@@ -27,7 +27,7 @@ function FilterFiletypes()
     -- Return with Comment highlight for directory part
     return '%#Comment#' .. dir_part .. '/%*' .. file_part
   end
-  
+
   return ''
 end
 
@@ -91,10 +91,13 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
   callback = function()
     local bufname = vim.api.nvim_buf_get_name(0)
     local is_empty = bufname == '' and vim.bo.filetype == ''
+    local excluded_filetypes = {
+      'trouble',
+    }
 
-    if is_empty then
+    if is_empty or vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then
       vim.wo.number = false
-      vim.wo.cursorline = false
+      -- vim.wo.cursorline = false
     else
       vim.wo.number = true
       vim.wo.cursorline = true

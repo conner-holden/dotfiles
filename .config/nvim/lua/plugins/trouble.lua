@@ -1,5 +1,13 @@
 return {
   'folke/trouble.nvim',
-  opts = {},
+  opts = {
+    modes = {
+      lsp_references = {
+        focus = true,
+        format = '{text:ts}',
+      },
+    },
+  },
+
   cmd = 'Trouble',
 }

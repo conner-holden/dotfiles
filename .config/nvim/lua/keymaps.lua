@@ -149,6 +149,7 @@ nmap(
   '<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>',
   'Trouble errors'
 )
+nmap('grr', '<cmd>Trouble lsp_references toggle<cr>', 'Trouble references')
 
 -- Outline
 nmap('<leader>o', '<cmd>Outline<cr>', 'Outline symbols')
