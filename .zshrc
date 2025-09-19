@@ -21,6 +21,7 @@ export BROWSER=zen
 export XDG_CONFIG_HOME="$HOME/.config"
 export VOLTA_HOME="$HOME/.volta"
 export FLYCTL_INSTALL="/home/ch/.fly"
+export DIRENV_LOG_FORMAT=""
 
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export PATH="$HOME/.atuin/bin:$PATH"
