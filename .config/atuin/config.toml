@@ -1,2 +1,10 @@
-filter_mode = "directory"
-style = "full"
+inline_height = 100
+invert = true
+keymap_mode = "vim-normal"
+search_mode = "fulltext"
+show_tabs = false
+show_help = false
+style = "compact"
+
+[theme]
+name = "nord"
