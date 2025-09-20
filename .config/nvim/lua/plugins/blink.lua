@@ -1,7 +1,7 @@
 return {
   'saghen/blink.cmp',
   opts = {
-    keymap = { preset = 'default', ['<tab>'] = { 'accept' } },
+    keymap = { preset = 'default' },
     appearance = {
       nerd_font_variant = 'mono',
     },
