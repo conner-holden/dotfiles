@@ -5,8 +5,9 @@ setopt IGNORE_EOF
 bindkey -v
 bindkey "^?" backward-delete-char
 bindkey -r "^J"
-bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^[^M' self-insert-unmeta
+
+bindkey -M viins 'jk' vi-cmd-mode
 function vi-yank-xclip {
   zle vi-yank
   echo -n "$CUTBUFFER" | xclip -selection clipboard
@@ -22,6 +23,13 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export VOLTA_HOME="$HOME/.volta"
 export FLYCTL_INSTALL="/home/ch/.fly"
 export DIRENV_LOG_FORMAT=""
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+    --color=fg:#e5e9f0,bg:-1,hl:#81a1c1
+    --color=fg+:#e5e9f0,bg+:#3b4252,gutter:-1,hl+:#81a1c1
+    --color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
+    --color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b
+    --scrollbar="" --layout="reverse" --prompt="❯ "
+    --info="right" --no-preview'
 
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export PATH="$HOME/.atuin/bin:$PATH"
@@ -57,9 +65,19 @@ add-zsh-hook precmd rv_precmd
 add-zsh-hook chpwd rv_chpwd
 
 eval "$(atuin init zsh --disable-up-arrow)"
-eval "$(starship init zsh)"
+
+# Zoxide
+export _ZO_FZF_OPTS="${FZF_DEFAULT_OPTS}"
 eval "$(zoxide init zsh)"
+# Override zi to remove score display
+function __zoxide_zi() {
+    __zoxide_doctor
+    \builtin local result
+    result="$(\command zoxide query --list -- "$@" | fzf)" && __zoxide_cd "${result}"
+}
+
 eval "$(direnv hook zsh)"
+eval "$(starship init zsh)"
 
 export PNPM_HOME="/home/ch/.local/share/pnpm"
 case ":$PATH:" in
