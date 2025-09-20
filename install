@@ -48,6 +48,7 @@ function env {
 }
 
 function packages {
+  claude
   neovim
   zoxide
   zen
@@ -79,8 +80,8 @@ function packages {
 }
 
 function neovim {
-  curl -fsSL https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-x86_64.appimage -o $LOCAL_BIN/nvim-next \
-    && chmod +x $LOCAL_BIN/nvim-next
+  curl -fsSL https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-x86_64.appimage -o $LOCAL_BIN/nvim \
+    && chmod +x $LOCAL_BIN/nvim
 }
 
 function zoxide {
@@ -222,6 +223,10 @@ function fzf {
     | tar -xz -C $LOCAL_BIN fzf \
     && chmod +x $LOCAL_BIN/fzf \
     && command fzf --version
+}
+
+function claude {
+  curl -fsSL https://claude.ai/install.sh | bash
 }
 
 function zsh_plugins {
