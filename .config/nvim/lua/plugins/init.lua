@@ -1,6 +1,6 @@
 local plugins = {
   'autopairs',
-  'avante',
+  -- 'avante',
   'blink',
   'comment',
   'comment_ts',
