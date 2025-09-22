@@ -4,14 +4,6 @@ return {
   config = function()
     require('mini.pick').setup()
     require('mini.cursorword').setup()
-    -- require('mini.notify').setup({
-    --   window = {
-    --     config = {
-    --       border = 'rounded',
-    --     },
-    --     winblend = 0,
-    --   },
-    -- })
     require('mini.surround').setup({
       mappings = {
         add = '<leader>sa', -- Add surrounding in Normal and Visual modes
@@ -30,6 +22,7 @@ return {
     miniclue.setup({
       window = {
         config = {
+          border = 'rounded',
           width = 40,
         },
       },
