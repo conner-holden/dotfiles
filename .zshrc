@@ -33,6 +33,8 @@ export GOPATH="$HOME/.go"
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:/usr/local/go/bin"
 
+export VCPKG_ROOT="$HOME/.vcpkg"
+
 # Eza
 alias ls='eza'
 alias ll="eza -l -g --group-directories-first --no-filesize --time-style iso --no-permissions --no-user --time-style '+%m/%d/%y [%H:%M]'"

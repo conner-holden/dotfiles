@@ -93,6 +93,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
     local is_empty = bufname == '' and vim.bo.filetype == ''
     local excluded_filetypes = {
       'trouble',
+      'snacks_picker_input',
     }
 
     if is_empty or vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then

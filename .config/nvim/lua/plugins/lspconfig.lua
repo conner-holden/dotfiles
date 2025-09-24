@@ -68,6 +68,13 @@ return {
     lsp.kotlin_language_server.setup({})
     lsp.gopls.setup({})
     lsp.golangci_lint_ls.setup({})
+    lsp.clangd.setup({
+      on_attach = function(client, bufnr)
+        client.server_capabilities.signatureHelpProvider = false
+        -- on_attach(client, bufnr)
+      end,
+      capabilities = capabilities,
+    })
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
