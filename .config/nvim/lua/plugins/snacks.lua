@@ -8,7 +8,11 @@ return {
       prompt = ' ❯',
       sources = {
         explorer = {
+          ignored = true,
           hidden = true,
+          exclude = {
+            'node_modules',
+          },
           layout = {
             cycle = true,
             layout = {
