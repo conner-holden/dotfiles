@@ -17,8 +17,6 @@ bindkey -M vicmd 'y' vi-yank-xclip
 
 PROMPT_EOL_MARK=''
 
-export EDITOR=nvim
-export BROWSER=zen
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # Cargo
@@ -63,17 +61,6 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
     --info="right" --no-preview'
 source <(fzf --zsh)
 
-# Rv
-rv_precmd() {
-  eval "$(rv precmd)"
-}
-rv_chpwd() {
-  eval "$(rv chpwd)"
-}
-autoload -U add-zsh-hook
-add-zsh-hook precmd rv_precmd
-add-zsh-hook chpwd rv_chpwd
-
 # Atuin
 export PATH="$HOME/.atuin/bin:$PATH"
 eval "$(atuin init zsh --disable-up-arrow)"
@@ -94,6 +81,21 @@ eval "$(direnv hook zsh)"
 
 # Starship
 eval "$(starship init zsh)"
+
+# Zellij
+zellij_tab_name_update() {
+    if [[ -n $ZELLIJ ]]; then
+        local current_dir=$PWD
+        if [[ $current_dir == $HOME ]]; then
+            current_dir="~"
+        else
+            current_dir=${current_dir##*/}
+        fi
+        command nohup zellij action rename-tab $current_dir >/dev/null 2>&1
+    fi
+}
+zellij_tab_name_update
+chpwd_functions+=(zellij_tab_name_update)
 
 # PNPM
 export PNPM_HOME="/home/ch/.local/share/pnpm"

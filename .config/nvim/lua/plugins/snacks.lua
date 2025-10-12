@@ -5,7 +5,7 @@ return {
       replace_netrw = true,
     },
     picker = {
-      prompt = ' ❯',
+      prompt = ' ❯ ',
       sources = {
         explorer = {
           ignored = true,

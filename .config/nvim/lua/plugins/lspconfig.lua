@@ -2,9 +2,9 @@ return {
   'neovim/nvim-lspconfig',
   config = function()
     local capabilities = require('blink.cmp').get_lsp_capabilities()
-    local lsp = require('lspconfig')
+    local lsp = vim.lsp
 
-    lsp.lua_ls.setup({
+    lsp.config('lua_ls', {
       settings = {
         Lua = {
           diagnostics = {
@@ -20,7 +20,7 @@ return {
         },
       },
     })
-    lsp.pyright.setup({
+    lsp.config('pyright', {
       settings = {
         pyright = {
           -- Using Ruff's import organizer
@@ -34,8 +34,8 @@ return {
         },
       },
     })
-    lsp.ruff.setup({ capabilities = capabilities })
-    lsp.svelte.setup({
+    lsp.config('ruff', { capabilities = capabilities })
+    lsp.config('svelte', {
       capabilities = capabilities,
       settings = {
         svelte = {
@@ -49,7 +49,7 @@ return {
         },
       },
     })
-    lsp.vtsls.setup({
+    lsp.config('vtsls', {
       capabilities = capabilities,
       settings = {
         typescript = {
@@ -62,13 +62,12 @@ return {
         },
       },
     })
-    lsp.tailwindcss.setup({ capabilities = capabilities })
-    lsp.terraformls.setup({ capabilities = capabilities })
-    lsp.tflint.setup({})
-    lsp.kotlin_language_server.setup({})
-    lsp.gopls.setup({})
-    lsp.golangci_lint_ls.setup({})
-    lsp.clangd.setup({
+    lsp.config('tailwindcss', { capabilities = capabilities })
+    lsp.config('terraformls', { capabilities = capabilities })
+    lsp.enable('tflint')
+    lsp.enable('gopls')
+    lsp.enable('golangci_lint_ls')
+    lsp.config('clangd', {
       on_attach = function(client, bufnr)
         client.server_capabilities.signatureHelpProvider = false
         -- on_attach(client, bufnr)

@@ -1,18 +1,29 @@
-background-opacity = 0.95
-confirm-close-surface = false
-cursor-style = block
-font-family = CaskaydiaCove Nerd Font Mono
+config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+
+# Style
+gtk-custom-css = nord.css
+
+# Font
+font-family = "CaskaydiaCove Nerd Font Mono"
+font-style = regular
 font-size = 16
-gtk-adwaita = false
-resize-overlay = never
+
+# Shell
 shell-integration = zsh
 shell-integration-features = no-cursor
-theme = nord
+
+# Curosr
+cursor-style = "block"
+
+# Window
 window-decoration = server
 window-padding-x = 8
 window-padding-y = 8
 window-theme = system
+resize-overlay = never
+confirm-close-surface = false
 
+# Keyboard bindings
 keybind = alt+t=new_tab
 keybind = alt+l=next_tab
 keybind = alt+h=previous_tab
