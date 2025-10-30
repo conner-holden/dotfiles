@@ -12,6 +12,8 @@ return {
           hidden = true,
           exclude = {
             'node_modules',
+            'target',
+            '.svelte-kit',
           },
           layout = {
             cycle = true,
