@@ -2,6 +2,10 @@
   editor = nvim
   commentChar = ":"
   whitespace = cr-at-eol
+	sshCommand = "ssh -i $HOME/.ssh/personal_ed25519"
+[user]
+	name = Conner Holden
+	email = 200126914+conner-holden@users.noreply.github.com
 [init]  
   defaultBranch = main
 [gpg]
