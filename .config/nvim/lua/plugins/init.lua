@@ -11,6 +11,7 @@ local plugins = {
   'flash',
   'gitsigns',
   'grugfar',
+  'lazydev',
   'lspconfig',
   'mason',
   'mason_lspconfig',

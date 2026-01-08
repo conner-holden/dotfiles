@@ -13,6 +13,7 @@
 [user]
 	useConfigOnly = true
 [alias]
+  s = status -s
   unstage = reset HEAD
   undo-commit = reset --soft HEAD^
   poh = push -u origin HEAD

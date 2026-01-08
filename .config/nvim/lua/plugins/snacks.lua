@@ -75,6 +75,7 @@ return {
               end
             end
             vim.api.nvim_set_hl(0, 'SnacksPickerPathHidden', { bg = 'none', fg = '#7b818e' })
+            vim.api.nvim_set_hl(0, 'SnacksPickerTree', { bg = 'none', fg = '#434d5f' })
             return require('snacks.picker.source.explorer').setup(opts)
           end,
           win = {
@@ -83,7 +84,7 @@ return {
                 ['l'] = 'confirm',
                 ['h'] = 'explorer_close',
                 ['<C-a>'] = 'explorer_add',
-                ['<C-d>'] = 'explorer_del',
+                ['d'] = 'explorer_del',
                 ['r'] = 'explorer_rename',
                 ['m'] = 'explorer_move',
                 ['<C-i>'] = 'toggle_ignored',

@@ -32,7 +32,7 @@ local function location_key(res)
 end
 
 local function dedupe_definition_results(result)
-  if type(result) ~= 'table' or not vim.tbl_islist(result) or #result <= 1 then
+  if type(result) ~= 'table' or not vim.islist(result) or #result <= 1 then
     return result
   end
 

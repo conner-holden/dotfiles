@@ -20,6 +20,7 @@ return {
         },
       },
     })
+    lsp.enable('lua_ls')
     lsp.config('pyright', {
       settings = {
         pyright = {
@@ -35,36 +36,6 @@ return {
       },
     })
     lsp.config('ruff', { capabilities = capabilities })
-    lsp.config('svelte', {
-      capabilities = capabilities,
-      settings = {
-        svelte = {
-          plugin = {
-            svelte = {
-              compilerWarnings = {
-                ['a11y-autofocus'] = 'ignore',
-              },
-            },
-          },
-        },
-      },
-    })
-    lsp.config('vtsls', {
-      capabilities = capabilities,
-      settings = {
-        typescript = {
-          preferences = {
-            watchDirectory = 'useFsEvents',
-          },
-        },
-        vtsls = {
-          autoUseWorkspaceTsdk = true,
-        },
-      },
-    })
-    lsp.config('tailwindcss', { capabilities = capabilities })
-    lsp.config('terraformls', { capabilities = capabilities })
-    lsp.enable('tflint')
     lsp.enable('gopls')
     lsp.enable('golangci_lint_ls')
     lsp.config('clangd', {
@@ -89,41 +60,5 @@ return {
       end,
       desc = 'LSP: Disable hover capability from Ruff',
     })
-
-    -- Generic function to create LSP refresh autocmds
-    local function create_lsp_refresh_autocmd(patterns, client_names, description)
-      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-        pattern = patterns,
-        callback = function()
-          for _, client in pairs(vim.lsp.get_active_clients()) do
-            if vim.tbl_contains(client_names, client.name) then
-              vim.schedule(function()
-                client.notify('workspace/didChangeWatchedFiles', {
-                  changes = {
-                    {
-                      uri = vim.uri_from_fname(vim.fn.expand('%:p')),
-                      type = 2, -- Changed
-                    },
-                  },
-                })
-              end)
-            end
-          end
-        end,
-        desc = description,
-      })
-    end
-
-    create_lsp_refresh_autocmd(
-      { '**/src/**/*.ts', '**/src/**/*.js', '**/*.d.ts' },
-      { 'vtsls', 'svelte' },
-      'Refresh LSP when TypeScript files change'
-    )
-
-    create_lsp_refresh_autocmd(
-      { '*.tf', '*.tfvars', '*.hcl' },
-      { 'terraformls', 'tflint' },
-      'Refresh LSP when Terraform files change'
-    )
   end,
 }
