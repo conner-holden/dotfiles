@@ -96,6 +96,9 @@ nmap('<leader>f', function()
   })
 end, 'Find files')
 
+-- Telescope symbols search
+nmap('<leader>s', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>', 'Search workspace symbols')
+
 -- Telescope grep without extra result text and automatic search restoration
 nmap('<A-f>', function()
   local pickers = require('telescope.state').get_global_key('cached_pickers')
