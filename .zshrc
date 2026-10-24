@@ -1,6 +1,7 @@
 autoload -U +X compinit && compinit
 
 setopt IGNORE_EOF
+setopt interactive_comments
 
 bindkey -v
 bindkey "^?" backward-delete-char
@@ -8,6 +9,7 @@ bindkey -r "^J"
 bindkey '^[^M' self-insert-unmeta
 
 bindkey -M viins 'jk' vi-cmd-mode
+
 function vi-yank-xclip {
   zle vi-yank
   echo -n "$CUTBUFFER" | xclip -selection clipboard
@@ -75,31 +77,14 @@ function __zoxide_zi() {
     result="$(\command zoxide query --list -- "$@" | fzf)" && __zoxide_cd "${result}"
 }
 
+# Tmux
+if [[ -z $TMUX ]] && [[ -o interactive ]] && command -v tmux >/dev/null; then
+  tmux attach -t main 2>/dev/null || tmux new-session
+fi
+
 # Direnv
 export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"
 
 # Starship
 eval "$(starship init zsh)"
-
-# Zellij
-zellij_tab_name_update() {
-    if [[ -n $ZELLIJ ]]; then
-        local current_dir=$PWD
-        if [[ $current_dir == $HOME ]]; then
-            current_dir="~"
-        else
-            current_dir=${current_dir##*/}
-        fi
-        command nohup zellij action rename-tab $current_dir >/dev/null 2>&1
-    fi
-}
-zellij_tab_name_update
-chpwd_functions+=(zellij_tab_name_update)
-
-# PNPM
-export PNPM_HOME="/home/ch/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac

@@ -1,8 +1,3 @@
-config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
-
-# Style
-gtk-custom-css = nord.css
-
 # Font
 font-family = "CaskaydiaCove Nerd Font Mono"
 font-style = regular
@@ -22,16 +17,17 @@ window-padding-y = 8
 window-theme = system
 resize-overlay = never
 confirm-close-surface = false
+background-opacity = 0.90
 
 # Keyboard bindings
-keybind = alt+t=new_tab
-keybind = alt+l=next_tab
-keybind = alt+h=previous_tab
-keybind = shift+alt+w=close_surface
-keybind = shift+alt+b=new_split:down
-keybind = shift+alt+v=new_split:right
-keybind = shift+alt+h=goto_split:previous
-keybind = shift+alt+l=goto_split:next
-keybind = alt+d=scroll_page_down
-keybind = alt+u=scroll_page_up
+# keybind = alt+t=new_tab
+# keybind = alt+l=next_tab
+# keybind = alt+h=previous_tab
+# keybind = shift+alt+w=close_surface
+# keybind = shift+alt+b=new_split:down
+# keybind = shift+alt+v=new_split:right
+# keybind = shift+alt+h=goto_split:previous
+# keybind = shift+alt+l=goto_split:next
+# keybind = alt+d=scroll_page_down
+# keybind = alt+u=scroll_page_up
 keybind = shift+enter=text:\n
